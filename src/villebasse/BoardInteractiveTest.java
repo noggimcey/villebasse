@@ -3,7 +3,7 @@ package villebasse;
 import java.io.*;
 
 
-public class BoardTest
+public class BoardInteractiveTest
 {
 	private static BufferedReader stdin = new BufferedReader(
 		new InputStreamReader(System.in));
@@ -11,9 +11,11 @@ public class BoardTest
 	public static void main(String args[])
 	{
 		Board board = new Board(new Piece());
+		int[] pos;
 
+		printBoard(board);
 		while (true) {
-			int[] pos = readInput();
+			pos = readInput();
 			if (pos == null)
 				break;
 
@@ -41,24 +43,29 @@ public class BoardTest
 
 		for (int i = b.width() + 2; i > 0; --i)
 			System.out.print('.');
-		System.out.println();
+		System.out.println("\n");
 	}
 
 	private static int[] readInput()
 	{
-		try {
-			String input = stdin.readLine().trim();
-			int delim = input.indexOf(' ');
-			if (delim == -1)
-				return null;
+		System.out.print("<x> <y>: ");
 
-			int[] pos = new int[2];
-			pos[0] = Integer.parseInt(input.substring(0, delim));
-			pos[1] = Integer.parseInt(input.substring(delim + 1, input.length()));
-			return pos;
+		String input;
+		try {
+			input = stdin.readLine();
 		} catch (Exception e) {
 			return null;
 		}
 
+		int delim = input.indexOf(' ');
+		int[] pos = new int[2];
+		try {
+			pos[0] = Integer.parseInt(input.substring(0, delim));
+			pos[1] = Integer.parseInt(input.substring(delim + 1, input.length()));
+		} catch (Exception e) {
+			return null;
+		}
+
+		return pos;
 	}
 }
