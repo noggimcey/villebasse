@@ -7,6 +7,16 @@ public class Piece
 
 	public Piece()
 	{
-		this.state = 0;
+		this(0);
+	}
+
+	public Piece(int state)
+	{
+		this.state = state;
+	}
+
+	public String toString()
+	{
+		return getClass().getName() + '(' + this.state + ')';
 	}
 }
