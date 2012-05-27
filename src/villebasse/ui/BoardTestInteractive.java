@@ -1,9 +1,10 @@
-package villebasse;
+package villebasse.ui;
 
+import villebasse.*;
 import java.io.*;
 
 
-public class BoardInteractiveTest
+public class BoardTestInteractive
 {
 	private static BufferedReader stdin = new BufferedReader(
 		new InputStreamReader(System.in));
@@ -53,6 +54,8 @@ public class BoardInteractiveTest
 		String input;
 		try {
 			input = stdin.readLine();
+			if (input == null)
+				return null;
 		} catch (Exception e) {
 			return null;
 		}
