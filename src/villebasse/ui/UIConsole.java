@@ -11,12 +11,12 @@ public class UIConsole implements UI
 	private boolean initialized;
 
 
-	public int initialize(String args[])
+	public boolean initialize(String args[])
 	{
 		this.board = new Board(new Piece());
 		this.stdin = new BufferedReader(new InputStreamReader(System.in));
 		this.initialized = true;
-		return 0;
+		return true;
 	}
 
 

@@ -14,6 +14,8 @@ public class VilleBasse
 		for (i = 0; i < args.length && args[i].charAt(0) == '-'; ++i) {
 			if (args[i].equals("-gui")) {
 				ui = new UISwing();
+			} else if (args[i].equals("-imagetest")) {
+				ui = new UIImageTest();
 			} else {
 				System.err.println(args[i] + ": Unknown option");
 			}
@@ -22,8 +24,9 @@ public class VilleBasse
 		if (ui == null)
 			ui = new UIConsole();
 
-		if (ui.initialize(Arrays.copyOfRange(args, i, args.length)) != 0)
+		if (!ui.initialize(Arrays.copyOfRange(args, i, args.length)))
 			System.exit(1);
+		System.err.println("Starting UI...");
 		ui.run();
 	}
 }

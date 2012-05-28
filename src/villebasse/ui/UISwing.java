@@ -2,9 +2,9 @@ package villebasse.ui;
 
 public class UISwing implements UI
 {
-	public int initialize(String args[])
+	public boolean initialize(String args[])
 	{
-		return -1;
+		return false;
 	}
 
 	public void run()

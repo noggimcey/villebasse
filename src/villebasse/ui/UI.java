@@ -7,9 +7,9 @@ public interface UI
    *
    * @param args Arguments to be passed to the implementing class
    *
-   * @return 0 if successful. Non-zero otherwise.
+   * @return True if successful. False otherwise.
    */
-  public int initialize(String[] args);
+  public boolean initialize(String[] args);
 
   /**
    * Runs the initialized UI instance
