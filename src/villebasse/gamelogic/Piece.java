@@ -7,7 +7,6 @@ public abstract class Piece
 		FIELD, ROAD, CITY, CLOISTER
 	}
 
-	protected int state;
 	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
 

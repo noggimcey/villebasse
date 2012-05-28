@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public abstract class Deck
 {
-	Vector<Piece> pieces;
+	protected Vector<Piece> pieces;
 
 
 	public Piece draw() throws Exception
@@ -24,13 +24,15 @@ public abstract class Deck
 	}
 
 
-	public void putBack(Piece piece) throws Exception
+	public boolean putBack(Piece piece) throws Exception
 	{
 		if (this.pieces.contains(piece))
-			throw new Exception("piece already in deck");
+			return false;
+			//throw new Exception("piece already in deck");
 
 		this.pieces.add(piece);
 		this.shuffle();
+		return true;
 	}
 
 

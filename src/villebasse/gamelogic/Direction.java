@@ -66,6 +66,7 @@ public class Direction implements Iterable<Direction>
 
 
 	// Rotate clock-wise
+	// if this == NORTH, this.rotate(d) == d
 	public Direction rotate(Direction d)
 	{
 		return this.rotate(d.ordinal());
