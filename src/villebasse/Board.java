@@ -10,18 +10,18 @@ public class Board
 	public static final int defaultNumberOfPieces = 72;
 
 	private HashMap<Point, Piece> pieces;
-	private int max_x = 0, max_y = 0, min_x = 0, min_y = 0;
+	private int maxX = 0, maxY = 0, minX = 0, minY = 0;
 
 
-	public Board(Piece initial_piece)
+	public Board(Piece initialPiece)
 	{
-		this(initial_piece, defaultNumberOfPieces);
+		this(initialPiece, defaultNumberOfPieces);
 	}
 
-	public Board(Piece initial_piece, int number_of_pieces)
+	public Board(Piece initialPiece, int numberOfPieces)
 	{
-		this.pieces = new HashMap<Point, Piece>(number_of_pieces);
-		this.put(0, 0, initial_piece);
+		this.pieces = new HashMap<Point, Piece>(numberOfPieces);
+		this.put(0, 0, initialPiece);
 	}
 
 
@@ -31,8 +31,8 @@ public class Board
 
 		for (Map.Entry<Point, Piece> entry : this.pieces.entrySet()) {
 			Point point = entry.getKey();
-			int x = point.getX() - this.min_x;
-			int y = point.getY() - this.min_y;
+			int x = point.getX() - this.minX;
+			int y = point.getY() - this.minY;
 			arr[y][x] = entry.getValue();
 		}
 
@@ -55,20 +55,20 @@ public class Board
 
 	public void putPieceRelative(int x, int y, Piece piece) throws Exception
 	{
-		this.putPieceAbsolute(x + this.min_x, y + this.min_y, piece);
+		this.putPieceAbsolute(x + this.minX, y + this.minY, piece);
 	}
 
 
 	private void checkBounds(int x, int y)
 	{
-		if (this.max_x < x)
-			this.max_x = x;
-		if (this.max_y < y)
-			this.max_y = y;
-		if (this.min_x > x)
-			this.min_x = x;
-		if (this.min_y > y)
-			this.min_y = y;
+		if (this.maxX < x)
+			this.maxX = x;
+		if (this.maxY < y)
+			this.maxY = y;
+		if (this.minX > x)
+			this.minX = x;
+		if (this.minY > y)
+			this.minY = y;
 	}
 
 	private void checkBounds(Point point)
@@ -126,12 +126,12 @@ public class Board
 
 	public int height()
 	{
-		return this.max_y - this.min_y + 1;
+		return this.maxY - this.minY + 1;
 	}
 
 	public int width()
 	{
-		return this.max_x - this.min_x + 1;
+		return this.maxX - this.minX + 1;
 	}
 
 
