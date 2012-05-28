@@ -1,7 +1,7 @@
 package villebasse.ui;
 
 import java.io.*;
-import villebasse.*;
+import villebasse.gamelogic.*;
 
 
 public class UIConsole implements UI

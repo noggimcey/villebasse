@@ -1,4 +1,4 @@
-package villebasse;
+package villebasse.gamelogic;
 
 import java.util.Random;
 import java.util.Vector;
