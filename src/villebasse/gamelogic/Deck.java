@@ -32,7 +32,7 @@ public abstract class Deck
 		this.pieces.add(piece);
 		this.shuffle();
 	}
-		
+
 
 	public void shuffle()
 	{

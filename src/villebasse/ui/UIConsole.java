@@ -2,6 +2,7 @@ package villebasse.ui;
 
 import java.io.*;
 import villebasse.gamelogic.*;
+import villebasse.gamelogic.defaultpieces.*;
 
 
 public class UIConsole implements UI
@@ -13,7 +14,7 @@ public class UIConsole implements UI
 
 	public boolean initialize(String args[])
 	{
-		this.board = new Board(new Piece());
+		this.board = new Board(new PieceCityCorner());
 		this.stdin = new BufferedReader(new InputStreamReader(System.in));
 		this.initialized = true;
 		return true;
@@ -33,7 +34,7 @@ public class UIConsole implements UI
 				break;
 
 			try {
-				this.board.putPieceRelative(pos[0], pos[1], new Piece());
+				this.board.putPieceRelative(pos[0], pos[1], new PieceBigCity());
 				this.printBoard();
 			} catch (Exception e) {
 				System.err.println(e.getMessage() + ": " + pos[0] + "," + pos[1]);
