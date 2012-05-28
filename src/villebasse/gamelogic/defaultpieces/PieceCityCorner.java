@@ -15,10 +15,10 @@ public class PieceCityCorner extends Piece
 	public PieceCityCorner()
 	{
 		this.edges = new Terrain[]{
-			Terrain.FIELD,           
-			Terrain.CITY,            
-			Terrain.CITY,            
-			Terrain.FIELD,           
+			Terrain.FIELD,
+			Terrain.CITY,
+			Terrain.CITY,
+			Terrain.FIELD,
 		};
 	}
 }

@@ -7,12 +7,8 @@ public abstract class Piece
 		FIELD, ROAD, CITY, CLOISTER
 	}
 
-	public static enum EdgeDirection {
-		NORTH, WEST, SOUTH, EAST
-	}
-
 	protected int state;
-	protected EdgeDirection rotation = EdgeDirection.NORTH;
+	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
 
 
@@ -26,20 +22,49 @@ public abstract class Piece
 	}
 
 
+	public Terrain edge(Direction dir)
+	{
+		int i = dir.ordinal();
+
+		if (i < this.edges.length)
+			return this.edges[i];
+		return null;
+	}
+
+
+	// TODO: returns edges in wrong order
 	public Terrain[] edges()
 	{
-		int nEdges = this.edges.length;
-		Terrain[] rotatedEdges = new Terrain[nEdges];
+		Terrain[] rotatedEdges = new Terrain[4];
 
 		// edges is rotation order
-		for (int i = 0; i < nEdges; ++i)
-			rotatedEdges[i] = this.edges[(i + this.rotation.ordinal()) % nEdges];
+		for (Direction d : new Direction())
+			rotatedEdges[d.ordinal()] = this.edges[d.rotate(this.rotation).ordinal()];
 
 		return rotatedEdges;
 	}
 
 
-	public void setRotation(EdgeDirection dir)
+	// Rotate clock-wise
+	public void rotate()
+	{
+		this.rotate(1);
+	}
+
+
+	public void rotate(int numberOfTimes)
+	{
+		this.rotation = this.rotation.rotate(numberOfTimes);
+	}
+
+
+	public void setRotation(int dir)
+	{
+		this.setRotation(new Direction(dir));
+	}
+
+
+	public void setRotation(Direction dir)
 	{
 		this.rotation = dir;
 	}
