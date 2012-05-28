@@ -3,24 +3,44 @@ package villebasse.gamelogic;
 
 public abstract class Piece
 {
-	//public static final
-	private int state;
-	private int rotation = 0;
-	private int[] edges;
+	public static enum Terrain {
+		FIELD, ROAD, CITY, CLOISTER
+	}
+
+	public static enum EdgeDirection {
+		NORTH, WEST, SOUTH, EAST
+	}
+
+	protected int state;
+	protected EdgeDirection rotation = EdgeDirection.NORTH;
+	protected Terrain[] edges;
+
 
 	public String toString()
 	{
-		return getClass().getName() + '(' + this.state + ')';
+		String ret = getClass().getName() + ": ";
+		for (Terrain t : this.edges())
+			ret += t + " ";
+
+		return ret;
 	}
 
-	public int[] edges()
+
+	public Terrain[] edges()
 	{
 		int nEdges = this.edges.length;
-		int[] rotatedEdges = new int[nEdges];
+		Terrain[] rotatedEdges = new Terrain[nEdges];
 
+		// edges is rotation order
 		for (int i = 0; i < nEdges; ++i)
-			rotatedEdges[i] = this.edges[(this.rotation + 1) % nEdges];
+			rotatedEdges[i] = this.edges[(i + this.rotation.ordinal()) % nEdges];
 
 		return rotatedEdges;
+	}
+
+
+	public void setRotation(EdgeDirection dir)
+	{
+		this.rotation = dir;
 	}
 }
