@@ -1,4 +1,4 @@
-package villebasse;
+package villebasse.gamelogic;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -7,6 +7,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import villebasse.gamelogic.*;
+import villebasse.gamelogic.defaultpieces.*;
+
 public class BoardTest {
 
 	Board board;
@@ -14,14 +17,14 @@ public class BoardTest {
 	@Before
 	public void setUp()
 	{
-		board = new Board(new Piece());
+		board = new Board(new PieceBigCity());
 	}
 
 	/**
 	 * Test of asArray method, of class Board.
 	 */
 	@Test
-	public void testAsArray() throws Exception
+	public void testAsArray1() throws Exception
 	{
 		Piece[][] boardArray;
 
@@ -29,13 +32,18 @@ public class BoardTest {
 		assertEquals(boardArray.length, 1);
 		assertEquals(boardArray[0].length, 1);
 		assertNotNull(boardArray[0][0]);
+	}
 
+	@Test
+	public void testAsArray2() throws Exception
+	{
 		for (int i = 1; i <= 5; ++i) {
-			board.putPieceAbsolute(0, i, new Piece());
-			board.putPieceAbsolute(i, 0, new Piece());
+			board.putPieceAbsolute(0, i, new PieceBigCity());
+			board.putPieceAbsolute(i, 0, new PieceBigCity());
 		}
 
-		boardArray = board.asArray();
+		Piece[][] boardArray = board.asArray();
+
 		for (int i = 0; i < boardArray.length; ++i)
 			for (int j = 0; j < boardArray[i].length; ++j)
 				if (i == 0 || j == 0)
@@ -48,25 +56,34 @@ public class BoardTest {
 	 * Test of putPieceAbsolute method, of class Board.
 	 */
 	@Test
-	public void testPutPieceAbsolute()
+	public void testPutPieceAbsolute1()
 	{
 		try {
-			board.putPieceAbsolute(0, 0, new Piece());
+			board.putPieceAbsolute(0, 0, new PieceBigCity());
 			fail("Absolute point (0,0) is always taken.");
 		} catch (Exception e) {
 			// goood
 		}
+	}
 
+	@Test
+	public void testPutPieceAbsolute2()
+	{
 		try {
-			board.putPieceAbsolute(2, 0, new Piece());
+			board.putPieceAbsolute(2, 0, new PieceBigCity());
 			fail("Absolute point (2,0) should be unreachable.");
 		} catch (Exception e) {
 			// goood
 		}
+	}
+
+	@Test
+	public void testPutPieceAbsolute3()
+	{
 
 		for (int i = 1; i <= 10; ++i)
 			try {
-				board.putPieceAbsolute(i, 0, new Piece());
+				board.putPieceAbsolute(i, 0, new PieceBigCity());
 			} catch (Exception e) {
 				fail("Absolute point ("+i+",0) should be reachable.");
 			}
@@ -80,7 +97,7 @@ public class BoardTest {
 	{
 		for (int i = 0; i < 10; ++i)
 			try {
-				board.putPieceRelative(-1, 0, new Piece());
+				board.putPieceRelative(-1, 0, new PieceBigCity());
 			} catch (Exception e) {
 				fail("Relative point (-1,0) should always be valid.");
 			}
@@ -94,9 +111,9 @@ public class BoardTest {
 	{
 		assertEquals(board.height(), 1);
 
-		board.putPieceAbsolute(-1, 0, new Piece());
+		board.putPieceAbsolute(-1, 0, new PieceBigCity());
 		for (int i = 1; i <= 5; ++i)
-			board.putPieceAbsolute(0, i, new Piece());
+			board.putPieceAbsolute(0, i, new PieceBigCity());
 
 		assertEquals(board.height(), 6);
 	}
@@ -109,9 +126,9 @@ public class BoardTest {
 	{
 		assertEquals(board.width(), 1);
 
-		board.putPieceAbsolute(0, -1, new Piece());
+		board.putPieceAbsolute(0, -1, new PieceBigCity());
 		for (int i = 1; i <= 5; ++i)
-			board.putPieceAbsolute(i, 0, new Piece());
+			board.putPieceAbsolute(i, 0, new PieceBigCity());
 
 		assertEquals(board.width(), 6);
 	}
