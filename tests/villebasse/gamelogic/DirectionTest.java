@@ -15,7 +15,7 @@ public class DirectionTest {
 
 	@Before
 	public void setUp() {
-		Direction dir = new Direction(Direction.NORTH);
+		dir = new Direction(Direction.NORTH);
 	}
 
 	@After
@@ -69,11 +69,30 @@ public class DirectionTest {
 	}
 
 	@Test
-	public void testRotate_Direction() {
+	public void testPrev() {
+		assertTrue(dir.prev().equals(new Direction(Direction.WEST)));
+		dir = dir.prev();
+		assertTrue(dir.prev().equals(new Direction(Direction.SOUTH)));
+		dir = dir.prev();
+		assertTrue(dir.prev().equals(new Direction(Direction.EAST)));
+		dir = dir.prev();
+		assertTrue(dir.prev().equals(new Direction(Direction.NORTH)));
 	}
 
 	@Test
-	public void testRotate_int() {
+	public void testRotateAntiClockWise() {
+		assertTrue(dir.rotateAntiClockWise(1).equals(new Direction(Direction.WEST)));
+		assertTrue(dir.rotateAntiClockWise(2).equals(new Direction(Direction.SOUTH)));
+		assertTrue(dir.rotateAntiClockWise(3).equals(new Direction(Direction.EAST)));
+		assertTrue(dir.rotateAntiClockWise(4).equals(new Direction(Direction.NORTH)));
+	}
+
+	@Test
+	public void testRotateClockWise() {
+		assertTrue(dir.rotateClockWise(1).equals(new Direction(Direction.EAST)));
+		assertTrue(dir.rotateClockWise(2).equals(new Direction(Direction.SOUTH)));
+		assertTrue(dir.rotateClockWise(3).equals(new Direction(Direction.WEST)));
+		assertTrue(dir.rotateClockWise(4).equals(new Direction(Direction.NORTH)));
 	}
 
 	@Test

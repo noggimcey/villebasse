@@ -22,7 +22,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void testDraw() {
+	public void testDraw1() {
 		int size = deck.size();
 
 		for (int i = 0; i < size; ++i) {
@@ -32,8 +32,19 @@ public class DeckTest {
 				fail(e.toString());
 			}
 		}
+	}
 
-		assertTrue(deck.isEmpty());
+	@Test
+	public void testDraw2() {
+		int size = deck.size();
+
+		for (int i = 0; i < size; ++i) {
+			try {
+				assertNotNull(deck.draw());
+			} catch (Exception e) {
+				fail(e.toString());
+			}
+		}
 
 		try {
 			deck.draw();
@@ -45,24 +56,25 @@ public class DeckTest {
 
 	@Test
 	public void testIsEmpty() {
+		int size = deck.size();
+
+		for (int i = 0; i < size; ++i) {
+			try {
+				assertNotNull(deck.draw());
+			} catch (Exception e) {
+				fail(e.toString());
+			}
+		}
+
+		assertTrue(deck.isEmpty());
 	}
 
 	@Test
 	public void testPutBack() throws Exception {
 		Piece p = deck.draw();
 
-		try {
-			deck.putBack(p);
-		} catch (Exception e) {
-			fail(e.toString());
-		}
-
-		try {
-			deck.putBack(p);
-			fail("piece already in deck");
-		} catch (Exception e) {
-			// good
-		}
+		assertTrue(deck.putBack(p));
+		assertFalse(deck.putBack(p));
 	}
 
 	@Test
@@ -71,6 +83,18 @@ public class DeckTest {
 
 	@Test
 	public void testSize() {
+		int size = deck.size();
+
+		Piece p = null;
+		try {
+			p = deck.draw();
+		} catch (Exception e) {
+			fail();
+		}
+
+		assertEquals(deck.size(), size - 1);
+		deck.putBack(p);
+		assertEquals(deck.size(), size);
 	}
 
 }
