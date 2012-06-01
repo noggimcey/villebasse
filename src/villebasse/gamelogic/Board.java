@@ -13,18 +13,47 @@ public class Board
 	private int maxX = 0, maxY = 0, minX = 0, minY = 0;
 
 
+	/**
+	 * Board-luokan konstruktori.
+	 *
+	 * @param initialPiece  Laudan aloituspala
+	 */
 	public Board(Piece initialPiece)
 	{
 		this(initialPiece, defaultNumberOfPieces);
 	}
 
+	/**
+	 * Board-luokan konstruktori.
+	 *
+	 * @param initialPiece  Laudan aloituspala
+	 * @param numberOfPieces  Monelleko palalle varataan tila (kasvaa automaattisesti)
+	 */
 	public Board(Piece initialPiece, int numberOfPieces)
 	{
 		this.pieces = new HashMap<Point, Piece>(numberOfPieces);
 		this.put(0, 0, initialPiece);
 	}
 
+	/**
+	 * Board-luokan konstruktori.
+	 *
+	 * Vetää aloituspalan annetusta pakasta ja varaa pakan koon verran tilaa.
+	 *
+	 * @param deck  Palapakka, josta aloituspala vedetään
+	 * @throws DeckException  deck.draw()
+	 */
+	public Board(Deck deck) throws Exception
+	{
+		this.pieces = new HashMap<Point, Piece>(deck.size());
+		this.put(0, 0, deck.draw());
+	}
 
+	/**
+	 * Lauta taulukkona.
+	 *
+	 * @return Lauta taulukkona
+	 */
 	public Piece[][] asArray()
 	{
 		Piece[][] arr = new Piece[this.height()][this.width()];
@@ -39,6 +68,16 @@ public class Board
 		return arr;
 	}
 
+	/**
+	 * Aseta pala absoluuttisiin koordinaatteihin.
+	 *
+	 * Absoluuttiset koordinaatit lähtevät aloituspalasta (0,0) joka suuntaan.
+	 *
+	 * @param x  Absoluuttinen vaakasuuntainen koordinaatti
+	 * @param y  Absoluuttinen pystysuuntainen koordinaatti
+	 * @param piece  Laudalle asetteva pala
+	 * @throws BoardException  Pala jo laudalla tai sopimaton sijainti
+	 */
 	public void putPieceAbsolute(int x, int y, Piece piece) throws Exception
 	{
 		Point point = new Point(x, y);
@@ -53,9 +92,40 @@ public class Board
 		this.checkBounds(x, y);
 	}
 
+	/**
+	 * Aseta pala suhteellisiin koordinaatteihin.
+	 *
+	 * Laudan vasemmanpuoleisin pala on suhteellisessa vaakakoordinaatissa 0
+	 * ja ylimpänä oleva pala suhteellisessa pystykoordinaatissa 0.
+	 *
+	 * @param x  Suhteellinen vaakasuuntainen koordinaatti
+	 * @param y  Suhteellinen pystysuuntainen koordinaatti
+	 * @param piece  Laudalle asetteva pala
+	 * @throws BoardException  Pala jo laudalla tai sopimaton sijainti
+	 */
 	public void putPieceRelative(int x, int y, Piece piece) throws Exception
 	{
 		this.putPieceAbsolute(x + this.minX, y + this.minY, piece);
+	}
+
+	/**
+	 * Laudan korkeus.
+	 *
+	 * @return Laudan korkeus
+	 */
+	public int height()
+	{
+		return this.maxY - this.minY + 1;
+	}
+
+	/**
+	 * Laudan leveys.
+	 *
+	 * @return Laudan leveys
+	 */
+	public int width()
+	{
+		return this.maxX - this.minX + 1;
 	}
 
 
@@ -123,19 +193,7 @@ public class Board
 		return this.pieces.put(point, piece);
 	}
 
-
-	public int height()
-	{
-		return this.maxY - this.minY + 1;
-	}
-
-	public int width()
-	{
-		return this.maxX - this.minX + 1;
-	}
-
-
-	public class Point
+	private class Point
 	{
 		private int x;
 		private int y;
