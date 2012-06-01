@@ -8,13 +8,18 @@ import villebasse.gamelogic.defaultpieces.*;
 public class UIConsole implements UI
 {
 	private Board board;
+	private Deck deck;
 	private BufferedReader stdin;
 	private boolean initialized;
 
 
 	public boolean initialize(String args[])
 	{
-		this.board = new Board(new PieceCityCorner());
+		this.deck = new DefaultDeckWithoutRoads();
+		try {
+			this.board = new Board(this.deck);
+		} catch (Exception e) {
+		}
 		this.stdin = new BufferedReader(new InputStreamReader(System.in));
 		this.initialized = true;
 		return true;
@@ -26,9 +31,18 @@ public class UIConsole implements UI
 		if (!this.initialized)
 			this.initialize(null);
 
-		this.printBoard();
+		System.out.println(this.board.asArray()[0][0] + "\n");
 
-		while (true) {
+		while (!this.deck.isEmpty()) {
+			Piece piece = null;
+			try {
+				 piece = this.deck.draw();
+			} catch (Exception e) {
+				System.err.println(e + ": shouldn't happen");
+				System.exit(1);
+			}
+
+			System.out.println("Deck gave " + piece);
 			int pos[] = this.readInput();
 			if (pos == null)
 				break;

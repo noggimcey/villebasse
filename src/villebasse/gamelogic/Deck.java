@@ -9,6 +9,12 @@ public abstract class Deck
 	protected Vector<Piece> pieces;
 
 
+	/**
+	 * Vetää pakasta seuraavan palan.
+	 *
+	 * @return Seuraava pala
+	 * @throws DeckException  Pakka tyhjä
+	 */
 	public Piece draw() throws Exception
 	{
 		if (this.isEmpty())
@@ -17,31 +23,47 @@ public abstract class Deck
 		return this.pieces.remove(this.size() - 1);
 	}
 
-
+	/**
+	 * Testaa, onko pakka tyhjä.
+	 *
+	 * @return Onko pakka tyhjä
+	 */
 	public boolean isEmpty()
 	{
 		return this.pieces.isEmpty();
 	}
 
-
-	public boolean putBack(Piece piece) throws Exception
+	/**
+	 * Laittaa palan pakkaan.
+	 *
+	 * Epäonnistuu, jos pala on jo pakassa.
+	 *
+	 * @param piece  Laitettava pala
+	 * @return Onnistuiko laitto
+	 */
+	public boolean putBack(Piece piece)
 	{
 		if (this.pieces.contains(piece))
 			return false;
-			//throw new Exception("piece already in deck");
 
 		this.pieces.add(piece);
 		this.shuffle();
 		return true;
 	}
 
-
+	/**
+	 * Sekoittaa pakan.
+	 */
 	public void shuffle()
 	{
 		FisherYatesShuffle(this.pieces);
 	}
 
-
+	/**
+	 * Pakassa jäljellä olevien palojen lukumäärä.
+	 *
+	 * @return Jäljellä olevien palojen määrä
+	 */
 	public int size()
 	{
 		return this.pieces.size();
