@@ -11,19 +11,9 @@ public abstract class Piece
 	protected Terrain[] edges;
 
 
-	public String toString()
-	{
-		String ret = getClass().getName() + ": ";
-		for (Terrain t : this.edges())
-			ret += t + " ";
-
-		return ret;
-	}
-
-
 	public Terrain edge(Direction dir)
 	{
-		int i = dir.ordinal();
+		int i = dir.modulate(this.rotation).ordinal();
 
 		if (i < this.edges.length)
 			return this.edges[i];
@@ -31,14 +21,13 @@ public abstract class Piece
 	}
 
 
-	// TODO: returns edges in wrong order
 	public Terrain[] edges()
 	{
 		Terrain[] rotatedEdges = new Terrain[4];
 
 		// edges is rotation order
 		for (Direction d : new Direction())
-			rotatedEdges[d.ordinal()] = this.edges[d.rotate(this.rotation).ordinal()];
+			rotatedEdges[d.ordinal()] = this.edge(d);
 
 		return rotatedEdges;
 	}
@@ -53,7 +42,7 @@ public abstract class Piece
 
 	public void rotate(int numberOfTimes)
 	{
-		this.rotation = this.rotation.rotate(numberOfTimes);
+		this.rotation = this.rotation.rotateClockWise(numberOfTimes);
 	}
 
 
@@ -66,5 +55,14 @@ public abstract class Piece
 	public void setRotation(Direction dir)
 	{
 		this.rotation = dir;
+	}
+
+	public String toString()
+	{
+		String ret = getClass().getName() + ": ";
+		for (Terrain t : this.edges())
+			ret += t + " ";
+
+		return ret;
 	}
 }
