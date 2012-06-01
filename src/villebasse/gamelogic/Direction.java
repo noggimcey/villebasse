@@ -151,7 +151,7 @@ public class Direction implements Iterable<Direction>
 	}
 
 	/**
-	 * Suunta merkkijonoja.
+	 * Suunta merkkijonona.
 	 *
 	 * @return Ilmansuunnan nimi
 	 */

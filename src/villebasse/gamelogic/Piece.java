@@ -10,17 +10,23 @@ public abstract class Piece
 	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
 
-
-	public Terrain edge(Direction dir)
+	/**
+	 * Palan maasto annetulla sivulla.
+	 *
+	 * @param direction  Suunta
+	 * @return Maastotyyppi
+	 */
+	public Terrain edge(Direction direction)
 	{
-		int i = dir.modulate(this.rotation).ordinal();
-
-		if (i < this.edges.length)
-			return this.edges[i];
-		return null;
+		int i = direction.modulate(this.rotation).ordinal();
+		return this.edges[i];
 	}
 
-
+	/**
+	 * Kaikkien sivujen maastotyypit.
+	 *
+	 * @return Maastotyypit pohjoisesta myötäpäivään
+	 */
 	public Terrain[] edges()
 	{
 		Terrain[] rotatedEdges = new Terrain[4];
@@ -32,31 +38,49 @@ public abstract class Piece
 		return rotatedEdges;
 	}
 
-
-	// Rotate clock-wise
+	/**
+	 * Pyöritä palaa 90 astetta myötäpäivään.
+	 */
 	public void rotate()
 	{
 		this.rotate(1);
 	}
 
-
+	/**
+	 * Pyöritä palaa n * 90 astetta myötäpäivään.
+	 *
+	 * @param numberOfTimes  Kiertojen lukumäärä
+	 */
 	public void rotate(int numberOfTimes)
 	{
 		this.rotation = this.rotation.rotateClockWise(numberOfTimes);
 	}
 
-
-	public void setRotation(int dir)
+	/**
+	 * Aseta palan asento.
+	 *
+	 * @param direction  Suunta
+	 */
+	public void setRotation(int direction)
 	{
-		this.setRotation(new Direction(dir));
+		this.setRotation(new Direction(direction));
 	}
 
-
-	public void setRotation(Direction dir)
+	/**
+	 * Aseta palan asento.
+	 *
+	 * @param direction  Suunta
+	 */
+	public void setRotation(Direction direction)
 	{
-		this.rotation = dir;
+		this.rotation = direction;
 	}
 
+	/**
+	 * Pala merkkijonona.
+	 *
+	 * @return Kuvaus merkkijonona
+	 */
 	public String toString()
 	{
 		String ret = getClass().getName() + ": ";
