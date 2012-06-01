@@ -4,7 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-
+/**
+ * Mallintaa pelilautaa.
+ *
+ * Lauta pitää huolen, etteivät asetettavat palat ole jo laudalla
+ * ja että palat sopivat pyydettyyn paikkaa.
+ */
 public class Board
 {
 	public static final int defaultNumberOfPieces = 72;

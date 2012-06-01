@@ -1,6 +1,11 @@
 package villebasse.gamelogic;
 
 
+/**
+ * Kuvaa laudalle asetettavaa laattaa.
+ *
+ * Abstrakti Piece-luokka toimii erilaisten laattojen vanhempana.
+ */
 public abstract class Piece
 {
 	public static enum Terrain {

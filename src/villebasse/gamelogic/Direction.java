@@ -2,7 +2,13 @@ package villebasse.gamelogic;
 
 import java.util.Iterator;
 
-
+/**
+ * Kuvaa suuntaa.
+ *
+ * Voidaan käyttää osoittamaan palan (Piece) sivua ja ilmaisemaan
+ * kiertokulmaa. Instanssit ovat iteroitavissa kaikkien suuntien
+ * läpikäymiseksi.
+ */
 public class Direction implements Iterable<Direction>
 {
 	public  static final int NORTH = 0;
@@ -70,7 +76,7 @@ public class Direction implements Iterable<Direction>
 	}
 
 	/**
-	 *
+	 * TODO
 	 *
 	 * @param direction
 	 * @return Moduloitu suunta

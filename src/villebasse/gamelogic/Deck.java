@@ -3,7 +3,11 @@ package villebasse.gamelogic;
 import java.util.Random;
 import java.util.Vector;
 
-
+/**
+ * Mallintaa sekoitettua palapakkaa.
+ *
+ * Abstrakti Deck-luokka toimii todellisten pakkojen vanhempana.
+ */
 public abstract class Deck
 {
 	protected Vector<Piece> pieces;
