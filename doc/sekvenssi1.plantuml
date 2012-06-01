@@ -1,0 +1,50 @@
+' http://plantuml.sourceforge.net/sequence.html
+
+@startuml sekvenssi1.png
+
+title Yksinkertainen esimerkki pelin kulusta
+autonumber
+hide footbox
+
+actor User
+participant "pakka:Deck" as pakka
+participant "lauta:Board" as lauta
+participant "pala1:Piece" as pala1
+participant "pala2:Piece" as pala2
+
+create pakka
+User -> pakka: new Deck()
+'activate pakka
+
+'pakka -> pakka: luo pakan palat
+create pala1
+pakka -> pala1: new Piece()
+create pala2
+pakka -> pala2: new Piece()
+
+create lauta
+User -> lauta: new Board(pakka)
+'activate lauta
+
+== vedä pala pakasta ja laita laudalle ==
+User ->  pakka: draw()
+activate pala1
+User <-- pakka: pala1
+User ->  lauta: putPiece(pala1)
+== toista ==
+User ->  pakka: draw()
+activate pala2
+User <-- pakka: pala2
+User ->  lauta: putPiece(pala2)
+== kunnes palat loppuvat ==
+User ->  pakka: draw()
+User <-- pakka: palat loppu!
+
+== valmis ==
+
+'deactivate pakka
+'deactivate lauta
+deactivate pala1
+deactivate pala2
+
+@enduml
