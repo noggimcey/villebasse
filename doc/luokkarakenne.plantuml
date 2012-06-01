@@ -1,0 +1,96 @@
+' http://plantuml.sourceforge.net/classes.html
+
+@startuml luokkarakenne.png
+
+package villebasse.gamelogic
+	class Board {
+		+{static} int defaultNumberOfPieces = 72
+		-HashMap<Point, Piece> pieces
+		-int maxX
+		-int maxY
+		-int minX
+		-int minY
+
+		+Board(Piece initialPiece)
+		+Board(Piece initialPiece, int numberOfPieces)
+		+Board(Deck deck)
+		+Piece[][] asArray()
+		+void putPieceAbsolute(int x, int y, Piece piece)
+		+void putPieceAbsolute(int x, int y, Piece piece)
+		+int height()
+		+int width()
+	}
+
+	abstract class Deck {
+		#Vector<Piece> pieces
+
+		+Piece draw()
+		+boolean isEmpty()
+		+boolen putBack(Piece piece)
+		+void shuffle()
+		+int size()
+	}
+
+	class Direction {
+		+{static} int NORTH
+		+{static} int EAST
+		+{static} int SOUTH
+		+{static} int WEST
+
+		+Direction()
+		+Direction(int direction)
+		+boolean equals(Direction that)
+		+Iterator<Direction> iterator()
+		+Direction next()
+		+Direction modulate(Direction direction)
+		+int ordinal()
+		+Direction opposite()
+		+Direction prev()
+		+Direction rotateAntiClockWise(int numberOfTimes)
+		+Direction rotateClockWise(int numberOfTimes)
+		+String toString()
+	}
+
+	abstract class Piece {
+		#Direction rotation
+		#Terrain[] edges
+
+		+Terrain edge(Direction direction)
+		+Terrain[] edges()
+		+void rotate()
+		+void rotate(int numberOfTimes)
+		+void setRotation(int direction)
+		+void setRotation(Direction direction)
+		+String toString()
+	}
+
+
+	' relations
+
+	Deck <|-- DefaultDeck
+	Deck <|-- DefaultDeckWithoutRoads
+	Deck <|-- RiverExpansion
+
+	Piece <|-- PieceBigCity
+	Piece <|-- PieceCityCorner
+	Piece <|-- PieceCityPipe
+	Piece <|-- PieceBigField
+
+	Deck *-- Piece
+	Board *-- Piece
+
+	Board ..> Direction: uses
+	Piece ..> Direction: uses
+end package
+
+package villebasse.ui
+	interface UI {
+		+boolean initialize(String[] args)
+		+void run()
+	}
+
+	UI <|-- UIConsole
+	UI <|-- UISwing
+end package
+
+@enduml
