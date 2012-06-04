@@ -90,8 +90,8 @@ public class Board
 		if (this.has(point))
 			throw new Exception("piece already on board");
 
-		if (!this.hasNeighbour(point))
-			throw new Exception("no neighbour");
+		if (!this.checkNeighbours(point, piece))
+			throw new Exception("no sufficient neighbours");
 
 		this.put(point, piece);
 		this.checkBounds(x, y);
@@ -151,6 +151,22 @@ public class Board
 		this.checkBounds(point.getX(), point.getY());
 	}
 
+	private boolean checkNeighbours(Point point, Piece piece)
+	{
+		boolean ok = false;
+
+		for (Direction d : new Direction()) {
+			Piece neighbour = this.get(point.go(d));
+			if (neighbour != null) {
+				if (neighbour.edge(d.opposite()) == piece.edge(d))
+					ok = true;
+				else
+					return false;
+			}
+		}
+
+		return ok;
+	}
 
 	private Piece get(int x, int y)
 	{
@@ -162,7 +178,6 @@ public class Board
 		return this.pieces.get(point);
 	}
 
-
 	private boolean has(int x, int y)
 	{
 		return this.has(new Point(x, y));
@@ -173,7 +188,7 @@ public class Board
 		return this.pieces.containsKey(point);
 	}
 
-
+	/*
 	private boolean hasNeighbour(int x, int y)
 	{
 		return this.hasNeighbour(new Point(x, y));
@@ -186,7 +201,7 @@ public class Board
 				return true;
 		return false;
 	}
-
+	*/
 
 	private Piece put(int x, int y, Piece piece)
 	{
@@ -216,11 +231,25 @@ public class Board
 				&& this.y == ((Point)that).getY();
 		}
 
+		public Point go(Direction d)
+		{
+			if (d.equals(Direction.NORTH))
+				return new Point(this.x, this.y - 1);
+			else if (d.equals(Direction.EAST))
+				return new Point(this.x + 1, this.y);
+			else if (d.equals(Direction.SOUTH))
+				return new Point(this.x, this.y + 1);
+			else if (d.equals(Direction.WEST))
+				return new Point(this.x - 1, this.y);
+
+			System.err.println("point.go(): else");
+			return null;
+		}
+
 		public int hashCode()
 		{
 			return this.x * Board.defaultNumberOfPieces * 2 + this.y;
 		}
-
 
 		public int getX()
 		{
@@ -232,16 +261,19 @@ public class Board
 			return this.y;
 		}
 
-		public Vector<Point> neighbours()
+		public Point[] neighbours()
 		{
-			Vector<Point> neighbours = new Vector<Point>(4);
+			Point[] neighbours = new Point[4];
 
-			neighbours.add(new Point(this.x - 1, this.y    ));
-			neighbours.add(new Point(this.x,     this.y - 1));
-			neighbours.add(new Point(this.x    , this.y + 1));
-			neighbours.add(new Point(this.x + 1, this.y    ));
+			for (Direction d : new Direction())
+				neighbours[d.ordinal()] = this.go(d);
 
 			return neighbours;
+		}
+
+		public String toString()
+		{
+			return "(" + this.x + "," + this.y + ")";
 		}
 	}
 }

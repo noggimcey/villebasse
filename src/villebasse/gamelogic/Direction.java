@@ -54,6 +54,17 @@ public class Direction implements Iterable<Direction>
 	}
 
 	/**
+	 * Vertailuoperaatio.
+	 *
+	 * @param direction  Vertailun toinen osapuoli
+	 * @return Osoittaako instanssi annettuun suuntaan
+	 */
+	public boolean equals(int direction)
+	{
+		return this.dir == d;
+	}
+
+	/**
 	 * Suuntaiteraattori.
 	 *
 	 * Käy kaikki suunnat läpi aloittaen annetusta suunnasta.
