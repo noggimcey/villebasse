@@ -61,7 +61,7 @@ public class Direction implements Iterable<Direction>
 	 */
 	public boolean equals(int direction)
 	{
-		return this.dir == d;
+		return this.dir == direction;
 	}
 
 	/**

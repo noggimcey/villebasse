@@ -43,15 +43,20 @@ public class UIConsole implements UI
 			}
 
 			System.out.println("Deck gave " + piece);
-			int pos[] = this.readInput();
-			if (pos == null)
-				break;
 
-			try {
-				this.board.putPieceRelative(pos[0], pos[1], new PieceBigCity());
-				this.printBoard();
-			} catch (Exception e) {
-				System.err.println(e.getMessage() + ": " + pos[0] + "," + pos[1]);
+			int pos[] = null;
+			while (true) {
+				try {
+					pos = this.readInput();
+					if (pos == null)
+						continue;
+
+					this.board.putPieceRelative(pos[0], pos[1], piece);
+					this.printBoard();
+					break;
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + ": " + pos[0] + "," + pos[1]);
+				}
 			}
 		}
 	}
