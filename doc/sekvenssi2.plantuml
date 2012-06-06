@@ -1,0 +1,46 @@
+' http://plantuml.sourceforge.net/sequence.html
+
+@startuml sekvenssi2.png
+
+title UISwing
+autonumber
+hide footbox
+
+participant "main:VilleBasse" as main
+participant "ui:UISwing" as ui
+participant "mainwin:MainWindow" as mainwin
+participant "borderPanel:BorderPanel" as bp
+participant "controlPanel:ControlPanel" as cp
+
+== Käyttöliittymän alustus ==
+activate main
+main -> ui: initialize(args)
+main -> ui: run()
+activate ui
+
+ui -> mainwin: new MainWindow()
+deactivate ui
+deactivate main
+activate mainwin
+mainwin -> cp: new ControlPanel()
+activate cp
+mainwin -> bp: new BorderPanel()
+activate bp
+
+== Toista ==
+mainwin -> bp: laita pala
+deactivate bp
+mainwin -> bp: new BorderPanel()
+activate bp
+mainwin -> bp: laita pala
+deactivate bp
+mainwin -> bp: new BorderPanel()
+activate bp
+
+== kunnes pakka tyhjä ==
+mainwin -> mainwin: pakka loppu
+deactivate bp
+deactivate cp
+deactivate mainwin
+
+@enduml

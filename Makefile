@@ -7,8 +7,8 @@ all: $(BUILDXML)
 	$(ANT) -f $<
 
 .PHONY: doc
-doc: doc/luokkarakenne.plantuml
-	$(PLANTUML) $<
+doc: doc/luokkarakenne.plantuml doc/sekvenssi1.plantuml doc/sekvenssi2.plantuml
+	$(PLANTUML) $^
 
 .PHONY: javadoc
 javadoc: $(BUILDXML)
