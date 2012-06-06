@@ -2,6 +2,7 @@ package villebasse;
 
 import java.util.Arrays;
 import villebasse.ui.*;
+import villebasse.ui.swing.UISwing;
 
 
 public class VilleBasse
@@ -14,8 +15,6 @@ public class VilleBasse
 		for (i = 0; i < args.length && args[i].charAt(0) == '-'; ++i) {
 			if (args[i].equals("-gui")) {
 				ui = new UISwing();
-			} else if (args[i].equals("-imagetest")) {
-				ui = new UIImageTest();
 			} else {
 				System.err.println(args[i] + ": Unknown option");
 			}
