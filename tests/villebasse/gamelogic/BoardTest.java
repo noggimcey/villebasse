@@ -17,7 +17,7 @@ public class BoardTest {
 	@Before
 	public void setUp()
 	{
-		board = new Board(new PieceBigCity());
+		board = new Board(new PieceCityPipe());
 	}
 
 	/**
@@ -38,8 +38,8 @@ public class BoardTest {
 	public void testAsArray2() throws Exception
 	{
 		for (int i = 1; i <= 5; ++i) {
-			board.putPieceAbsolute(0, i, new PieceBigCity());
-			board.putPieceAbsolute(i, 0, new PieceBigCity());
+			board.putPieceAbsolute(0, i, new PieceCityPipe());
+			board.putPieceAbsolute(i, 0, new PieceCityPipe());
 		}
 
 		Piece[][] boardArray = board.asArray();
@@ -80,13 +80,39 @@ public class BoardTest {
 	@Test
 	public void testPutPieceAbsolute3()
 	{
-
 		for (int i = 1; i <= 10; ++i)
 			try {
-				board.putPieceAbsolute(i, 0, new PieceBigCity());
+				board.putPieceAbsolute(i, 0, new PieceCityPipe());
 			} catch (Exception e) {
 				fail("Absolute point ("+i+",0) should be reachable.");
 			}
+	}
+
+	@Test
+	public void testPutPieceAbsolute4()
+	{
+		try {
+			board.putPieceAbsolute(0, -1, new PieceCityCorner());
+		} catch (Exception e) {
+			fail(e.toString());
+		}
+		try {
+			board.putPieceAbsolute(1, 0, new PieceCityCorner());
+		} catch (Exception e) {
+			fail(e.toString());
+		}
+		try {
+			board.putPieceAbsolute(0, 1, new PieceCityCorner());
+			fail("shouln'd fit");
+		} catch (Exception e) {
+			// good
+		}
+		try {
+			board.putPieceAbsolute(0, -1, new PieceCityCorner());
+			fail("shouln'd fit");
+		} catch (Exception e) {
+			// good
+		}
 	}
 
 	/**
@@ -97,7 +123,7 @@ public class BoardTest {
 	{
 		for (int i = 0; i < 10; ++i)
 			try {
-				board.putPieceRelative(-1, 0, new PieceBigCity());
+				board.putPieceRelative(-1, 0, new PieceCityPipe());
 			} catch (Exception e) {
 				fail("Relative point (-1,0) should always be valid.");
 			}
@@ -111,9 +137,9 @@ public class BoardTest {
 	{
 		assertEquals(board.height(), 1);
 
-		board.putPieceAbsolute(-1, 0, new PieceBigCity());
+		board.putPieceAbsolute(-1, 0, new PieceCityPipe());
 		for (int i = 1; i <= 5; ++i)
-			board.putPieceAbsolute(0, i, new PieceBigCity());
+			board.putPieceAbsolute(0, i, new PieceCityPipe());
 
 		assertEquals(board.height(), 6);
 	}
@@ -126,9 +152,9 @@ public class BoardTest {
 	{
 		assertEquals(board.width(), 1);
 
-		board.putPieceAbsolute(0, -1, new PieceBigCity());
+		board.putPieceAbsolute(0, -1, new PieceCityPipe());
 		for (int i = 1; i <= 5; ++i)
-			board.putPieceAbsolute(i, 0, new PieceBigCity());
+			board.putPieceAbsolute(i, 0, new PieceCityPipe());
 
 		assertEquals(board.width(), 6);
 	}
