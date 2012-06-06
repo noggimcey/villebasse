@@ -5,6 +5,7 @@
 
 build/
 dist/
+javadoc/
 nbproject/private/
 manifest.mf
 

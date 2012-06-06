@@ -55,6 +55,7 @@ package villebasse.gamelogic
 		#Direction rotation
 		#Terrain[] edges
 
+		+Direction getDirection()
 		+Terrain edge(Direction direction)
 		+Terrain[] edges()
 		+void rotate()
@@ -89,8 +90,84 @@ package villebasse.ui
 		+void run()
 	}
 
+	package villebasse.ui.swing
+		class BoardEvent <extends AWTEvent> {
+			+int x
+			+int y
+
+			+BoardEvent(Object source)
+			+BoardEvent(Object source, int type)
+			+BoardEvent(Object source, int x, int y)
+			+BoardEvent(Object source, int x, int y, int type)
+		}
+
+		interface BoardEventListener <extends EventListener> {
+			+void boardEventOccurred(BoardEvent be)
+		}
+
+		class GUIPiece extends JPanelWithCustomEvents {
+			-{static} PieceToImageMapper mapper
+			-BufferedImage image
+			-Piece piece
+			-AffineTransform tx
+			-boolean rotateable
+
+			+{static} PieceToImageMapper setMapper(PieceToImageMapper mapper)
+			+GUIPiece()
+			+GUIPiece(Piece piece)
+			+GUIPiece(Piece piece, boolean rotateable)
+			+void paint(Graphics g)
+			+void rotateAntiClockWise()
+			+void rotateClockWise()
+		}
+
+		class JPanelWithCustomEvents <extends JPanel> {
+			-Vector<BoardEventListener> boardEventListeners
+
+			+void addBoardEventListener(BoardEventListener listener)
+			+void dispatchEvent(BoardEvent be)
+		}
+
+		abstract class PieceToImageMapper {
+			#String baseDirectory
+			#String prefix
+			#String postfix
+			#HashMap<String, Vector<BufferedImage>> images
+			#HashMap<Piece, BufferedImage> cache
+
+			+BufferedImage map()
+			+BufferedImage map(Piece piece)
+
+			#boolean addImages(String pieceType, String[] files)
+			#bufferedImage checkCache(Piece piece)
+			#String fullname(String name)
+			#BufferedImage openImage(String filename)
+			#Vector<BufferedImage> openImages(String filename)
+			#BufferedImage randomImage(String name)
+			#{static} String pieceClass(Piece piece)
+		}
+
+		class NullMapper extends PieceToImageMapper
+		class ScannedMapper extends PieceToImageMapper
+
+		' relations
+
+		GUIPiece o-- Piece
+		GUIPiece --> PieceToImageMapper
+
+		UISwing ..> BoardEvent
+		UISwing ..> BoardEventListener
+
+		UISwing *-- GUIPiece
+		UISwing o-- Board
+		UISwing o-- Deck
+		UISwing o-- Piece
+
+	end package
+
 	UI <|-- UIConsole
 	UI <|-- UISwing
+
 end package
 
 @enduml
