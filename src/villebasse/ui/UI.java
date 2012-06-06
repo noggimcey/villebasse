@@ -1,18 +1,22 @@
 package villebasse.ui;
 
+/**
+ * Käyttöliittymien yhteinen rajapinta.
+ */
+
 public interface UI
 {
-  /**
-   * Initializes the UI instance
-   *
-   * @param args Arguments to be passed to the implementing class
-   *
-   * @return True if successful. False otherwise.
-   */
-  public boolean initialize(String[] args);
+	/**
+	 * Alusta käyttöliittymäinstanssi.
+	 *
+	 * @param args  Käyttöliittymän alustusparametrit
+	 *
+	 * @return Onnistuiko alustus
+	 */
+	public boolean initialize(String[] args);
 
-  /**
-   * Runs the initialized UI instance
-   */
-  public void run();
+	/**
+	 * Aja alustettua käyttöliittymäinstanssia.
+	 */
+	public void run();
 }

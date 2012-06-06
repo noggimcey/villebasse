@@ -189,21 +189,6 @@ public class Board
 		return this.pieces.containsKey(point);
 	}
 
-	/*
-	private boolean hasNeighbour(int x, int y)
-	{
-		return this.hasNeighbour(new MyPoint(x, y));
-	}
-
-	private boolean hasNeighbour(MyPoint point)
-	{
-		for (MyPoint neighbour : point.neighbours())
-			if (this.has(neighbour))
-				return true;
-		return false;
-	}
-	*/
-
 	private Piece put(int x, int y, Piece piece)
 	{
 		return this.put(new MyPoint(x, y), piece);

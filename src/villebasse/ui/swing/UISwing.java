@@ -13,6 +13,9 @@ import villebasse.ui.swing.*;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Graafinen käyttöliittymä.
+ */
 
 public class UISwing implements UI
 {

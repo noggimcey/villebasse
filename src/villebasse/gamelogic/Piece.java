@@ -15,6 +15,11 @@ public abstract class Piece
 	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
 
+	/**
+	 * Palan asento.
+	 *
+	 * @return Palan asento
+	 */
 	public Direction getRotation()
 	{
 		return this.rotation;

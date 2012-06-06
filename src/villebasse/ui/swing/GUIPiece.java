@@ -8,6 +8,12 @@ import javax.swing.*;
 import javax.swing.event.*;
 import villebasse.gamelogic.*;
 
+/**
+ * Laudalla näkyvä pala.
+ *
+ * Kätkee sisäänsä palan (Piece) ja palaa vastaavan kuvan ja tarjoaa
+ * rajapinnan niiden yhdessä käsittelyyn.
+ */
 
 public class GUIPiece extends JPanelWithCustomEvents
 	//implements MouseListener
@@ -19,7 +25,12 @@ public class GUIPiece extends JPanelWithCustomEvents
 	private AffineTransform tx = new AffineTransform();
 	private boolean rotateable;
 
-
+	/**
+	 * Aseta luokan käyttämä PieceToImageMapper.
+	 *
+	 * @param newMapper  Käytettäväksi asettava PieceToImageMapper
+	 * @return Edellinen PieceToImageMapper
+	 */
 	public static PieceToImageMapper setMapper(PieceToImageMapper newMapper)
 	{
 		PieceToImageMapper oldMapper = mapper;
@@ -28,37 +39,59 @@ public class GUIPiece extends JPanelWithCustomEvents
 	}
 
 
+	/**
+	 * GUIPiece-luokan tyhjä konstruktori.
+	 */
 	public GUIPiece()
 	{
 		this(null);
 	}
 
-	public GUIPiece(Piece p)
+	/**
+	 * GUIPiece-luokan konstruktori.
+	 *
+	 * @param piece  Instanssin käyttämä pala
+	 */
+	public GUIPiece(Piece piece)
 	{
-		this(p, false);
+		this(piece, false);
 	}
 
-	public GUIPiece(Piece p, boolean rotateable)
+	/**
+	 * GUIPiece-luokan konstruktori.
+	 *
+	 * @param piece  Instanssin käyttämä pala
+	 * @param rotateable  Onko pala pyöritettävissä
+	 */
+	public GUIPiece(Piece piece, boolean rotateable)
 	{
-		this.image = this.mapper.map(p);
-		this.piece = p;
+		this.image = this.mapper.map(piece);
+		this.piece = piece;
 		this.rotateable = rotateable;
 		//this.addMouseListener(this);
 
 		setImageRotation();
 	}
 
-	public void paint(Graphics g)
+	/**
+	 * Piirrä pala annetulle Graphics-instanssille.
+	 *
+	 * @param graphics  Graphics-instanssi, jolla GUIPiece piirretään
+	 */
+	public void paint(Graphics graphics)
 	{
 		int size = Math.min(this.getWidth(), this.getHeight());
 
 		if (this.image != null) {
-			((Graphics2D) g).drawImage(this.image, transform(size), null);
+			((Graphics2D) graphics).drawImage(this.image, transform(size), null);
 		} else {
-			g.drawRect(1, 1, size - 2, size - 2);
+			graphics.drawRect(1, 1, size - 2, size - 2);
 		}
 	}
 
+	/**
+	 * Pyöritä palaa 90 astetta vastapäivään.
+	 */
 	public void rotateAntiClockWise()
 	{
 		if (this.rotateable) {
@@ -68,6 +101,9 @@ public class GUIPiece extends JPanelWithCustomEvents
 		}
 	}
 
+	/**
+	 * Pyöritä palaa 90 astetta myötäpäivään.
+	 */
 	public void rotateClockWise()
 	{
 		if (this.rotateable) {

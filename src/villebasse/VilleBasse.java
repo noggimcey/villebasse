@@ -4,6 +4,9 @@ import java.util.Arrays;
 import villebasse.ui.*;
 import villebasse.ui.swing.UISwing;
 
+/**
+ * Pääohjelma.
+ */
 
 public class VilleBasse
 {

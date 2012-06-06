@@ -9,6 +9,13 @@ import java.util.Vector;
 import javax.imageio.ImageIO;
 import villebasse.gamelogic.*;
 
+/**
+ * Abstrakti luokka, joka kuvaa palat (Piece) näytettäviksi
+ * kuviksi (BufferedImage).
+ *
+ * Annetuista kuvista arvotaan palalle sen luokkaa vastaava kuva. Jos palalle
+ * on jo kertaalleen arvottu kuva, annetaan joka kerta sama kuva.
+ */
 
 public abstract class PieceToImageMapper
 {
@@ -17,11 +24,21 @@ public abstract class PieceToImageMapper
 	protected HashMap<Piece, BufferedImage> manufactured = new HashMap(72);
 
 
+	/**
+	 * Hae tyhjää palaa vastaava kuva.
+	 */
 	public BufferedImage map()
 	{
 		return map(null);
 	}
 
+	/**
+	 * Hae palaa vastaava kuva.
+	 *
+	 * @param piece  Pala, jolle kuva haetaan
+	 *
+	 * @return Kuvaa vastaava pala tai 'null', jos sopivaa kuvaa ei löydy
+	 */
 	public BufferedImage map(Piece piece)
 	{
 		BufferedImage image = checkAlreadyMade(piece);
@@ -36,6 +53,14 @@ public abstract class PieceToImageMapper
 	}
 
 
+	/**
+	 * Lisää kuvia mahdollisten kuvien joukkoon.
+	 *
+	 * @param pieceType  Luokka, johon kuvat liittyvät
+	 * @param files  Lisättävät tiedostot
+	 *
+	 * @return Lisättiin yhtään kuvaa
+	 */
 	protected boolean addImages(String pieceType, String[] files)
 		throws IOException
 	{
@@ -52,6 +77,13 @@ public abstract class PieceToImageMapper
 		return true;
 	}
 
+	/**
+	 * Tarkasta, onko palalle jo kertaalleen arvottu kuva.
+	 *
+	 * @param piece  Pala, jolle kuva haetaan
+	 *
+	 * @return Aiemmin arvottu kuva tai 'null'
+	 */
 	protected BufferedImage checkAlreadyMade(Piece piece)
 	{
 		if (piece == null)
@@ -59,12 +91,26 @@ public abstract class PieceToImageMapper
 		return this.manufactured.get(piece);
 	}
 
-	private String fullname(String name)
+	/**
+	 * Kasaa tiedostonimi annetuista pätkistä.
+	 *
+	 * @param name  Nimen vaihtuva osa
+	 *
+	 * @return Koko tiedostonimi
+	 */
+	protected String fullname(String name)
 	{
 		return this.baseDirectory + File.separator +
 			this.prefix + name + this.postfix;
 	}
 
+	/**
+	 * Avaa tiedosto ja lue kuvaksi.
+	 *
+	 * @param filename  Avattavan tiedoston nimen vaihtuva osa
+	 *
+	 * @return Tiedosto kuvana
+	 */
 	protected BufferedImage openImage(String filename) throws IOException
 	{
 		File f = new File(fullname(filename));
@@ -81,6 +127,13 @@ public abstract class PieceToImageMapper
 		}
 	}
 
+	/**
+	 * Avaa lista tiedostoja kuviksi.
+	 *
+	 * @param filenames  Lista avattavia tiedostoja
+	 *
+	 * @return Lista avattuja kuvia
+	 */
 	protected Vector<BufferedImage> openImages(String[] filenames)
 		throws IOException
 	{
@@ -92,13 +145,13 @@ public abstract class PieceToImageMapper
 		return images;
 	}
 
-	protected String pieceClass(Piece piece)
-	{
-		if (piece == null)
-			return "null";
-		return piece.getClass().getName();
-	}
-
+	/**
+	 * Arvo annetun luokan nimeä vastaa kuva
+	 *
+	 * @param name  Luokan nimi
+	 *
+	 * @return Satunnainen kuva tai 'null'
+	 */
 	protected BufferedImage randomImage(String name)
 	{
 		Vector<BufferedImage> images = this.images.get(name);
@@ -107,7 +160,22 @@ public abstract class PieceToImageMapper
 		return select(images);
 	}
 
-	protected BufferedImage select(Vector<BufferedImage> images)
+	/**
+	 * Palan luokka
+	 *
+	 * @param piece  Pala
+	 *
+	 * @return Palan luokka
+	 */
+	protected static String pieceClass(Piece piece)
+	{
+		if (piece == null)
+			return "null";
+		return piece.getClass().getName();
+	}
+
+
+	private static BufferedImage select(Vector<BufferedImage> images)
 	{
 		int len = images.size();
 

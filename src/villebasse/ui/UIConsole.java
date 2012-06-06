@@ -4,6 +4,11 @@ import java.io.*;
 import villebasse.gamelogic.*;
 import villebasse.gamelogic.defaultpieces.*;
 
+/**
+ * Komentorivi käyttöliittymä.
+ *
+ * Lähinnä testitarkoituksiin.
+ */
 
 public class UIConsole implements UI
 {
