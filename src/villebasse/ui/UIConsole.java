@@ -51,6 +51,7 @@ public class UIConsole implements UI
 					if (pos == null)
 						continue;
 
+					piece.rotate(pos[2]);
 					this.board.putPieceRelative(pos[0], pos[1], piece);
 					this.printBoard();
 					break;
@@ -83,7 +84,7 @@ public class UIConsole implements UI
 
 	private int[] readInput()
 	{
-		System.out.print("<x> <y>: ");
+		System.out.print("<x> <y> [<r>]: ");
 
 		String input;
 		try {
@@ -94,13 +95,21 @@ public class UIConsole implements UI
 			return null;
 		}
 
-		int delim = input.indexOf(' ');
-		int[] pos = new int[2];
+		String[] fields = input.split("\\s+");
+		if (fields.length < 2)
+			return null;
+
+		int[] pos = new int[3];
 		try {
-			pos[0] = Integer.parseInt(input.substring(0, delim));
-			pos[1] = Integer.parseInt(input.substring(delim + 1, input.length()).trim());
+			pos[0] = Integer.parseInt(fields[0]);
+			pos[1] = Integer.parseInt(fields[1]);
 		} catch (Exception e) {
 			return null;
+		}
+		try {
+			pos[2] = Integer.parseInt(fields[2]);
+		} catch (Exception e) {
+			pos[2] = 0;
 		}
 
 		return pos;

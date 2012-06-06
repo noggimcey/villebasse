@@ -145,6 +145,7 @@ public class Direction implements Iterable<Direction>
 	{
 		Direction result = this;
 
+		numberOfTimes %= 4;
 		for (int i = 0; i < numberOfTimes; ++i)
 			result = result.prev();
 
@@ -161,6 +162,7 @@ public class Direction implements Iterable<Direction>
 	{
 		Direction result = this;
 
+		numberOfTimes %= 4;
 		for (int i = 0; i < numberOfTimes; ++i)
 			result = result.next();
 

@@ -24,8 +24,10 @@ public class VilleBasse
 		if (ui == null)
 			ui = new UIConsole();
 
-		if (!ui.initialize(Arrays.copyOfRange(args, i, args.length)))
+		if (!ui.initialize(Arrays.copyOfRange(args, i, args.length))) {
+			System.err.println("UI initialization failed!");
 			System.exit(1);
+		}
 		System.err.println("Starting UI...");
 		ui.run();
 	}

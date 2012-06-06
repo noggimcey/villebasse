@@ -15,6 +15,11 @@ public abstract class Piece
 	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
 
+	public Direction getRotation()
+	{
+		return this.rotation;
+	}
+
 	/**
 	 * Palan maasto annetulla sivulla.
 	 *
