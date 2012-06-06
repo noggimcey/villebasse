@@ -1,5 +1,6 @@
 package villebasse.gamelogic;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -14,7 +15,7 @@ public class Board
 {
 	public static final int defaultNumberOfPieces = 72;
 
-	private HashMap<Point, Piece> pieces;
+	private HashMap<MyPoint, Piece> pieces;
 	private int maxX = 0, maxY = 0, minX = 0, minY = 0;
 
 
@@ -36,7 +37,7 @@ public class Board
 	 */
 	public Board(Piece initialPiece, int numberOfPieces)
 	{
-		this.pieces = new HashMap<Point, Piece>(numberOfPieces);
+		this.pieces = new HashMap<MyPoint, Piece>(numberOfPieces);
 		this.put(0, 0, initialPiece);
 	}
 
@@ -50,7 +51,7 @@ public class Board
 	 */
 	public Board(Deck deck) throws Exception
 	{
-		this.pieces = new HashMap<Point, Piece>(deck.size());
+		this.pieces = new HashMap<MyPoint, Piece>(deck.size());
 		this.put(0, 0, deck.draw());
 	}
 
@@ -63,10 +64,10 @@ public class Board
 	{
 		Piece[][] arr = new Piece[this.height()][this.width()];
 
-		for (Map.Entry<Point, Piece> entry : this.pieces.entrySet()) {
-			Point point = entry.getKey();
-			int x = point.getX() - this.minX;
-			int y = point.getY() - this.minY;
+		for (Map.Entry<MyPoint, Piece> entry : this.pieces.entrySet()) {
+			MyPoint point = entry.getKey();
+			int x = point.x - this.minX;
+			int y = point.y - this.minY;
 			arr[y][x] = entry.getValue();
 		}
 
@@ -85,7 +86,7 @@ public class Board
 	 */
 	public void putPieceAbsolute(int x, int y, Piece piece) throws Exception
 	{
-		Point point = new Point(x, y);
+		MyPoint point = new MyPoint(x, y);
 
 		if (this.has(point))
 			throw new Exception("piece already on board");
@@ -146,12 +147,12 @@ public class Board
 			this.minY = y;
 	}
 
-	private void checkBounds(Point point)
+	private void checkBounds(MyPoint point)
 	{
-		this.checkBounds(point.getX(), point.getY());
+		this.checkBounds(point.x, point.y);
 	}
 
-	private boolean checkNeighbours(Point point, Piece piece)
+	private boolean checkNeighbours(MyPoint point, Piece piece)
 	{
 		boolean ok = false;
 
@@ -170,20 +171,20 @@ public class Board
 
 	private Piece get(int x, int y)
 	{
-		return this.get(new Point(x, y));
+		return this.get(new MyPoint(x, y));
 	}
 
-	private Piece get(Point point)
+	private Piece get(MyPoint point)
 	{
 		return this.pieces.get(point);
 	}
 
 	private boolean has(int x, int y)
 	{
-		return this.has(new Point(x, y));
+		return this.has(new MyPoint(x, y));
 	}
 
-	private boolean has(Point point)
+	private boolean has(MyPoint point)
 	{
 		return this.pieces.containsKey(point);
 	}
@@ -191,12 +192,12 @@ public class Board
 	/*
 	private boolean hasNeighbour(int x, int y)
 	{
-		return this.hasNeighbour(new Point(x, y));
+		return this.hasNeighbour(new MyPoint(x, y));
 	}
 
-	private boolean hasNeighbour(Point point)
+	private boolean hasNeighbour(MyPoint point)
 	{
-		for (Point neighbour : point.neighbours())
+		for (MyPoint neighbour : point.neighbours())
 			if (this.has(neighbour))
 				return true;
 		return false;
@@ -205,75 +206,40 @@ public class Board
 
 	private Piece put(int x, int y, Piece piece)
 	{
-		return this.put(new Point(x, y), piece);
+		return this.put(new MyPoint(x, y), piece);
 	}
 
-	private Piece put(Point point, Piece piece)
+	private Piece put(MyPoint point, Piece piece)
 	{
 		return this.pieces.put(point, piece);
 	}
 
-	private class Point
+	private class MyPoint extends Point
 	{
-		private int x;
-		private int y;
-
-		public Point(int x, int y)
+		public MyPoint(MyPoint mp)
 		{
-			this.x = x;
-			this.y = y;
+			super(mp);
 		}
 
-		public boolean equals(Object that)
+		public MyPoint(int x, int y)
 		{
-			return that instanceof Point
-				&& this.x == ((Point)that).getX()
-				&& this.y == ((Point)that).getY();
+			super(x, y);
 		}
 
-		public Point go(Direction d)
+		public MyPoint go(Direction d)
 		{
+			MyPoint p = new MyPoint(this);
+
 			if (d.equals(Direction.NORTH))
-				return new Point(this.x, this.y - 1);
+				p.translate(0, -1);
 			else if (d.equals(Direction.EAST))
-				return new Point(this.x + 1, this.y);
+				p.translate(1, 0);
 			else if (d.equals(Direction.SOUTH))
-				return new Point(this.x, this.y + 1);
+				p.translate(0, 1);
 			else if (d.equals(Direction.WEST))
-				return new Point(this.x - 1, this.y);
+				p.translate(-1, 0);
 
-			System.err.println("point.go(): else");
-			return null;
-		}
-
-		public int hashCode()
-		{
-			return this.x * Board.defaultNumberOfPieces * 2 + this.y;
-		}
-
-		public int getX()
-		{
-			return this.x;
-		}
-
-		public int getY()
-		{
-			return this.y;
-		}
-
-		public Point[] neighbours()
-		{
-			Point[] neighbours = new Point[4];
-
-			for (Direction d : new Direction())
-				neighbours[d.ordinal()] = this.go(d);
-
-			return neighbours;
-		}
-
-		public String toString()
-		{
-			return "(" + this.x + "," + this.y + ")";
+			return p;
 		}
 	}
 }
