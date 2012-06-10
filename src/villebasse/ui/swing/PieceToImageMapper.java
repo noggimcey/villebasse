@@ -21,7 +21,7 @@ public abstract class PieceToImageMapper
 {
 	protected String baseDirectory, prefix, postfix;
 	protected HashMap<String, Vector<BufferedImage>> images = new HashMap(16);
-	protected HashMap<Piece, BufferedImage> manufactured = new HashMap(72);
+	protected HashMap<Piece, BufferedImage> cache = new HashMap(72);
 
 
 	/**
@@ -41,12 +41,12 @@ public abstract class PieceToImageMapper
 	 */
 	public BufferedImage map(Piece piece)
 	{
-		BufferedImage image = checkAlreadyMade(piece);
+		BufferedImage image = checkCache(piece);
 
 		if (image == null) {
 			image = randomImage(pieceClass(piece));
 			if (image != null && piece != null)
-				this.manufactured.put(piece, image);
+				this.cache.put(piece, image);
 		}
 
 		return image;
@@ -84,11 +84,11 @@ public abstract class PieceToImageMapper
 	 *
 	 * @return Aiemmin arvottu kuva tai 'null'
 	 */
-	protected BufferedImage checkAlreadyMade(Piece piece)
+	protected BufferedImage checkCache(Piece piece)
 	{
 		if (piece == null)
 			return null;
-		return this.manufactured.get(piece);
+		return this.cache.get(piece);
 	}
 
 	/**
