@@ -1,10 +1,12 @@
 package villebasse.ui;
 
+import java.lang.Runnable;
+
 /**
  * Käyttöliittymien yhteinen rajapinta.
  */
 
-public interface UI
+public interface UI extends Runnable
 {
 	/**
 	 * Alusta käyttöliittymäinstanssi.
@@ -14,9 +16,4 @@ public interface UI
 	 * @return Onnistuiko alustus
 	 */
 	public boolean initialize(String[] args);
-
-	/**
-	 * Aja alustettua käyttöliittymäinstanssia.
-	 */
-	public void run();
 }
