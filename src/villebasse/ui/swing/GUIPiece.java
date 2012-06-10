@@ -22,7 +22,7 @@ public class GUIPiece extends JPanelWithCustomEvents
 
 	private BufferedImage image;
 	private Piece piece;
-	private AffineTransform tx = new AffineTransform();
+	private AffineTransform rotation = new AffineTransform();
 	private boolean rotateable;
 
 	/**
@@ -74,6 +74,16 @@ public class GUIPiece extends JPanelWithCustomEvents
 	}
 
 	/**
+	 * Image-instanssimuuttujan getter-metodi
+	 *
+	 * @return Instanssin image-muuttja
+	 */
+	public BufferedImage getImage()
+	{
+		return this.image;
+	}
+
+	/**
 	 * Piirrä pala annetulle Graphics-instanssille.
 	 *
 	 * @param graphics  Graphics-instanssi, jolla GUIPiece piirretään
@@ -121,7 +131,7 @@ public class GUIPiece extends JPanelWithCustomEvents
 		AffineTransform at = new AffineTransform();
 
 		at.translate(size / 2, size / 2);
-		at.concatenate(this.tx);
+		at.concatenate(this.rotation);
 		at.translate(-size / 2, -size / 2);
 		at.scale(size / w, size / h);
 		return at;
@@ -144,10 +154,10 @@ public class GUIPiece extends JPanelWithCustomEvents
 	{
 		if (rotation < 0)
 			for (int i = -rotation; i > 0; --i)
-				this.tx.concatenate(new AffineTransform(0, -1, 1, 0, 0, 0));
+				this.rotation.concatenate(new AffineTransform(0, -1, 1, 0, 0, 0));
 		else if (rotation > 0)
 			for (int i = rotation; i > 0; --i)
-				this.tx.concatenate(new AffineTransform(0, 1, -1, 0, 0, 0));
+				this.rotation.concatenate(new AffineTransform(0, 1, -1, 0, 0, 0));
 	}
 
 	/*
