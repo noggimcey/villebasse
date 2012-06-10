@@ -76,11 +76,22 @@ public class GUIPiece extends JPanelWithCustomEvents
 	/**
 	 * Image-instanssimuuttujan getter-metodi
 	 *
-	 * @return Instanssin image-muuttja
+	 * @return Instanssin image-muuttuja
 	 */
 	public BufferedImage getImage()
 	{
 		return this.image;
+	}
+
+	/**
+	 * Rotation-instanssimuuttujan getter-metodi
+	 *
+	 * @return Instanssin rotation-muuttuja
+	 */
+	public AffineTransform getTransform()
+	{
+		this.setImageRotation();
+		return new AffineTransform(this.rotation);
 	}
 
 	/**
@@ -146,17 +157,17 @@ public class GUIPiece extends JPanelWithCustomEvents
 
 	private void setImageRotation(int rotation)
 	{
-		AffineTransform at = new AffineTransform();
+		this.rotation = new AffineTransform();
 		rotateImage(rotation);
 	}
 
 	private void rotateImage(int rotation)
 	{
 		if (rotation < 0)
-			for (int i = -rotation; i > 0; --i)
+			for (int i = -rotation % 4; i > 0; --i)
 				this.rotation.concatenate(new AffineTransform(0, -1, 1, 0, 0, 0));
 		else if (rotation > 0)
-			for (int i = rotation; i > 0; --i)
+			for (int i = rotation % 4; i > 0; --i)
 				this.rotation.concatenate(new AffineTransform(0, 1, -1, 0, 0, 0));
 	}
 
