@@ -74,6 +74,16 @@ public class Board
 		return arr;
 	}
 
+	public Piece getPieceAbsolute(int x, int y)
+	{
+		return this.get(x, y);
+	}
+
+	public Piece getPieceRelative(int x, int y)
+	{
+		return this.get(x + this.minX, y + this.minY);
+	}
+
 	/**
 	 * Aseta pala absoluuttisiin koordinaatteihin.
 	 *
@@ -112,6 +122,42 @@ public class Board
 	public void putPieceRelative(int x, int y, Piece piece) throws Exception
 	{
 		this.putPieceAbsolute(x + this.minX, y + this.minY, piece);
+	}
+
+	public Piece removePiece(Piece piece)
+	{
+		if (piece == null)
+			return null;
+
+		for (Map.Entry<MyPoint, Piece> entry : this.pieces.entrySet())
+			if (entry.getValue() == piece)
+				return this.pieces.remove(entry.getKey());
+
+		return null;
+	}
+
+	/**
+	 * Poista pala absoluuttisista koordinaateista.
+	 *
+	 * @param x  Absoluuttinen vaakasuuntainen koordinaatti
+	 * @param y  Absoluuttinen pystysuuntainen koordinaatti
+	 * @return Poistettu pala tai null
+	 */
+	public Piece removePieceAbsolute(int x, int y)
+	{
+		return this.pieces.remove(new MyPoint(x, y));
+	}
+
+	/**
+	 * Poista pala suhteellisista koordinaateista.
+	 *
+	 * @param x  Suhteellinen vaakasuuntainen koordinaatti
+	 * @param y  Suhteellinen pystysuuntainen koordinaatti
+	 * @return Poistettu pala tai null
+	 */
+	public Piece removePieceRelative(int x, int y)
+	{
+		return this.removePieceAbsolute(x + this.minX, y + this.minY);
 	}
 
 	/**
