@@ -21,38 +21,6 @@ public class BoardTest {
 	}
 
 	/**
-	 * Test of asArray method, of class Board.
-	 */
-	@Test
-	public void testAsArray1() throws Exception
-	{
-		Piece[][] boardArray;
-
-		boardArray = board.asArray();
-		assertEquals(boardArray.length, 1);
-		assertEquals(boardArray[0].length, 1);
-		assertNotNull(boardArray[0][0]);
-	}
-
-	@Test
-	public void testAsArray2() throws Exception
-	{
-		for (int i = 1; i <= 5; ++i) {
-			board.putPieceAbsolute(0, i, new PieceCityPipe());
-			board.putPieceAbsolute(i, 0, new PieceCityPipe());
-		}
-
-		Piece[][] boardArray = board.asArray();
-
-		for (int i = 0; i < boardArray.length; ++i)
-			for (int j = 0; j < boardArray[i].length; ++j)
-				if (i == 0 || j == 0)
-					assertNotNull(boardArray[i][j]);
-				else
-					assertNull(boardArray[i][j]);
-	}
-
-	/**
 	 * Test of putPieceAbsolute method, of class Board.
 	 */
 	@Test
@@ -127,6 +95,93 @@ public class BoardTest {
 			} catch (Exception e) {
 				fail("Relative point (-1,0) should always be valid.");
 			}
+	}
+
+	/**
+	 * Test of asArray method, of class Board.
+	 */
+	@Test
+	public void testAsArray1() throws Exception
+	{
+		Piece[][] boardArray;
+
+		boardArray = board.asArray();
+		assertEquals(boardArray.length, 1);
+		assertEquals(boardArray[0].length, 1);
+		assertNotNull(boardArray[0][0]);
+	}
+
+	@Test
+	public void testAsArray2() throws Exception
+	{
+		for (int i = 1; i <= 5; ++i) {
+			board.putPieceAbsolute(0, i, new PieceCityPipe());
+			board.putPieceAbsolute(i, 0, new PieceCityPipe());
+		}
+
+		Piece[][] boardArray = board.asArray();
+
+		for (int i = 0; i < boardArray.length; ++i)
+			for (int j = 0; j < boardArray[i].length; ++j)
+				if (i == 0 || j == 0)
+					assertNotNull(boardArray[i][j]);
+				else
+					assertNull(boardArray[i][j]);
+	}
+
+	/**
+	 * Test of getPieceAbsolute method, of class Board.
+	 */
+	@Test
+	public void testGetPieceAbsolute1()
+	{
+		Piece p = board.getPieceAbsolute(0, 0);
+		assertNotNull(p);
+		assertTrue(p instanceof PieceCityPipe);
+	}
+
+	@Test
+	public void testGetPieceAbsolute2()
+	{
+		Piece p = board.getPieceAbsolute(0, 1);
+		assertNull(p);
+	}
+
+	@Test
+	public void testGetPieceAbsolute3() throws Exception
+	{
+		board.putPieceAbsolute(0, -1, new PieceCityPipe());
+		for (int i = 1; i <= 5; ++i)
+			board.putPieceAbsolute(i, 0, new PieceCityPipe());
+
+		Piece p = board.getPieceAbsolute(0, -1);
+		assertNotNull(p);
+		assertTrue(p instanceof PieceCityPipe);
+
+		p = board.getPieceAbsolute(5, 0);
+		assertNotNull(p);
+		assertTrue(p instanceof PieceCityPipe);
+	}
+
+	/**
+	 * Test of removePieceAbsolute method, of class Board.
+	 */
+	public void testRemovePieceAbsolute()
+	{
+		Piece p = board.removePieceAbsolute(0, 0);
+		assertNotNull(p);
+		assertNull(board.removePieceAbsolute(0, 0));
+	}
+
+	/**
+	 * Test of removePiece method, of class Board.
+	 */
+	public void testRemovePiece() throws Exception
+	{
+		Piece p = new PieceCityPipe();
+		board.putPieceAbsolute(0, 1, p);
+		assertEquals(p, board.removePiece(p));
+		assertNull(board.getPieceAbsolute(0, 1));
 	}
 
 	/**
