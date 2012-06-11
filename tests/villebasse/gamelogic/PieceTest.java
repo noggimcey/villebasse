@@ -25,6 +25,18 @@ public class PieceTest {
 	}
 
 	@Test
+	public void testGetRotation()
+	{
+		assertTrue(piece.getRotation().equals(new Direction(Direction.NORTH)));
+		piece.rotate();
+		assertTrue(piece.getRotation().equals(new Direction(Direction.EAST)));
+		piece.rotate();
+		assertTrue(piece.getRotation().equals(new Direction(Direction.SOUTH)));
+		piece.rotate();
+		assertTrue(piece.getRotation().equals(new Direction(Direction.WEST)));
+	}
+
+	@Test
 	public void testEdge() {
 		assertEquals(piece.edge(new Direction(Direction.NORTH)), Piece.Terrain.FIELD);
 		assertEquals(piece.edge(new Direction(Direction.EAST)),  Piece.Terrain.CITY);
