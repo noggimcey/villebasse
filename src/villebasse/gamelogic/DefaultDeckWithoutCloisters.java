@@ -13,7 +13,7 @@ public class DefaultDeckWithoutCloisters extends Deck
 		for (int i = 0; i < 5; ++i)
 			this.pieces.add(new PieceDiagonalCity());
 
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < 3; ++i)
 			this.pieces.add(new PieceCityEndWithIntersection());
 
 		for (int i = 0; i < 3; ++i)
@@ -40,7 +40,7 @@ public class DefaultDeckWithoutCloisters extends Deck
 		for (int i = 0; i < 5; ++i)
 			this.pieces.add(new PieceCityEnd());
 
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < 3; ++i)
 			this.pieces.add(new PieceCityEndWithRoad());
 
 		for (int i = 0; i < 3; ++i)
@@ -61,6 +61,6 @@ public class DefaultDeckWithoutCloisters extends Deck
 		*/
 
 		this.shuffle();
-		this.pieces.add(new PieceCityEndWithIntersection());
+		this.pieces.add(new PieceCityEndWithRoad());
 	}
 }
