@@ -4,9 +4,9 @@ import java.util.Vector;
 import villebasse.gamelogic.defaultpieces.*;
 
 
-public class DefaultDeckWithoutCloisters extends Deck
+public class DefaultDeck extends Deck
 {
-	public DefaultDeckWithoutCloisters()
+	public DefaultDeck()
 	{
 		this.pieces = new Vector<Piece>(72);
 
@@ -54,6 +54,12 @@ public class DefaultDeckWithoutCloisters extends Deck
 
 		for (int i = 0; i < 5; ++i)
 			this.pieces.add(new PieceDiagonalCityWithRoad());
+
+		for (int i = 0; i < 4; ++i)
+			this.pieces.add(new PieceCloister());
+
+		for (int i = 0; i < 3; ++i)
+			this.pieces.add(new PieceCloisterWithRoad());
 
 		this.pieces.add(new PieceXIntersection());
 		this.pieces.add(new PieceFullCity());

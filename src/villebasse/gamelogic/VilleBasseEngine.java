@@ -33,7 +33,7 @@ public class VilleBasseEngine
 
 	public VilleBasseEngine()
 	{
-		this(new DefaultDeckWithoutCloisters());
+		this(new DefaultDeck());
 	}
 
 	public VilleBasseEngine(Deck deck)

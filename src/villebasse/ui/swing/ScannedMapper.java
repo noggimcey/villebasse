@@ -128,5 +128,24 @@ public class ScannedMapper extends PieceToImageMapper
 				"057",
 			}
 		);
+		addImages("villebasse.gamelogic.defaultpieces.PieceCloister",
+			new String[]{
+				"043",
+				"044",
+				"053",
+				"054",
+			}
+		);
+		addImages("villebasse.gamelogic.defaultpieces.PieceCloisterWithRoad",
+			new String[]{
+				"048",
+				"049",
+			}
+		);
+		addImages("villebasse.gamelogic.defaultpieces.PieceFullCity",
+			new String[]{
+				"013",
+			}
+		);
 	}
 }
