@@ -1,5 +1,8 @@
 package villebasse.gamelogic;
 
+import java.util.List;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * Kuvaa laudalle asetettavaa laattaa.
@@ -14,6 +17,7 @@ public abstract class Piece
 
 	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
+	protected LinkedList<Meeple> meeples;
 
 	/**
 	 * Palan asento.
@@ -51,6 +55,41 @@ public abstract class Piece
 			rotatedEdges[d.ordinal()] = this.edge(d);
 
 		return rotatedEdges;
+	}
+
+	public List getMeeples()
+	{
+		return (List) this.meeples;
+	}
+
+	public boolean placeMeeple(double x, double y, Meeple m)
+	{
+		if (m == null)
+			return false;
+
+		if (this.meeples == null)
+			this.meeples = new LinkedList<Meeple>();
+
+		m.place(x, y);
+		this.meeples.add(m);
+
+		return true;
+	}
+
+	public Meeple removeMeeple(double x, double y)
+	{
+		if (this.meeples == null)
+			return null;
+
+		for (ListIterator<Meeple> it = this.meeples.listIterator(0); it.hasNext(); ) {
+			Meeple m = it.next();
+			if (m.isAt(x, y)) {
+				it.remove();
+				return m;
+			}
+		}
+
+		return null;
 	}
 
 	/**
