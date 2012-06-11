@@ -79,14 +79,14 @@ public abstract class Piece
 	 */
 	public boolean placeMeeple(double x, double y, Meeple meeple)
 	{
-		if (m == null)
+		if (meeple == null)
 			return false;
 
 		if (this.meeples == null)
 			this.meeples = new LinkedList<Meeple>();
 
-		m.place(x, y);
-		this.meeples.add(m);
+		meeple.place(x, y);
+		this.meeples.add(meeple);
 
 		return true;
 	}

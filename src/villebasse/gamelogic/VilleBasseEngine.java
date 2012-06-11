@@ -160,8 +160,7 @@ public class VilleBasseEngine
 			return false;
 
 		if (!this.draw())
-		if ((this.curPiece = this.draw()) == null)
-			return null;
+			return false;
 
 		this.curPlayer = this.players.get(this.turn % this.players.size());
 		this.turn++;
@@ -294,7 +293,7 @@ public class VilleBasseEngine
 			System.err.println(e);
 			this.state = EngineState.DECKEMPTY;
 			this.curPiece = null;
-			return null;
+			return false;
 		}
 		return true;
 	}
