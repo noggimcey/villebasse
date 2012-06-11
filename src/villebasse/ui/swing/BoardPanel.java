@@ -15,7 +15,7 @@ public class BoardPanel extends JPanelWithCustomEvents
 	implements MouseListener, ComponentListener, MouseMotionListener
 {
 	private BoardGrid boardGrid;
-	private BufferedImage i;
+	private GUIPiece nextPiece;
 	private int mouseX, mouseY;
 	private boolean mouseIn = false;
 
@@ -29,9 +29,6 @@ public class BoardPanel extends JPanelWithCustomEvents
 		this.setLayout(new BorderLayout());
 		this.add(this.boardGrid, BorderLayout.CENTER);
 		this.update();
-
-		GUIPiece p = new GUIPiece(new PieceBigCity());
-		this.i = p.getImage();
 	}
 
 	public void update()
@@ -81,6 +78,7 @@ public class BoardPanel extends JPanelWithCustomEvents
 	{
 		if (e.getButton() != MouseEvent.BUTTON1) {
 			this.dispatchEvent(new BoardEvent(this, 1));
+			this.repaint();
 			return;
 		}
 
@@ -116,18 +114,23 @@ public class BoardPanel extends JPanelWithCustomEvents
 	{
 		super.paint(g);
 
-		if (!this.mouseIn)
+		if (!this.mouseIn || this.nextPiece == null)
 			return;
 
 		double ps = this.boardGrid.getPieceSize();
-		int w = this.i.getWidth();
-		int h = this.i.getHeight();
-		AffineTransform tx = new AffineTransform();
+		int ips = (int)(ps * 0.95);
+		this.nextPiece.setSize(new Dimension(ips, ips));
+		this.nextPiece.getTransform();
 
-		tx.translate(this.mouseX - ps / 2, this.mouseY - ps / 2);
-		tx.scale(ps / w * 0.95, ps / h * 0.95);
+		((Graphics2D) g).translate(this.mouseX - ps / 2, this.mouseY - ps / 2);
+		this.nextPiece.paint(g);
+	}
 
-		((Graphics2D) g).drawImage(this.i, tx, null);
+	public GUIPiece setNextPiece(GUIPiece piece)
+	{
+		GUIPiece oldPiece = this.nextPiece;
+		this.nextPiece = piece;
+		return oldPiece;
 	}
 
 

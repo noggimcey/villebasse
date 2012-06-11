@@ -34,7 +34,7 @@ public class UISwing
 			return false;
 		}
 
-		this.deck = new DefaultDeckWithoutRoads();
+		this.deck = new DefaultDeckWithoutCloisters();
 		try {
 			this.board = new Board(this.deck);
 		} catch (Exception e) {
@@ -106,9 +106,11 @@ public class UISwing
 		{
 			try {
 				this.piece = this.deck.draw();
+				this.boardPanel.setNextPiece(new GUIPiece(this.piece));
 				System.out.println(this.piece);
 			} catch (Exception e) {
 				this.piece = null;
+				this.boardPanel.setNextPiece(null);
 				System.err.println(e);
 			}
 		}
