@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class VilleBasseEngine
 {
-	private static enum EngineState {
+	public static enum EngineState {
 		INITIALIZATION,
 		DECKEMPTY,
 		INGAME,
@@ -88,6 +88,11 @@ public class VilleBasseEngine
 		return (this.turn - 1) / this.players.size() + 1;
 	}
 
+	public EngineState getState()
+	{
+		return this.state;
+	}
+
 	public int getTurnNumber()
 	{
 		return this.turn;
@@ -96,7 +101,7 @@ public class VilleBasseEngine
 	public boolean nextTurn()
 	{
 		//if (this.state != INGAME)
-		if (this.state.ordinal() <= EngineState.INGAME_PUT_PIECE.ordinal())
+		if (this.turn > 0 && this.state.ordinal() <= EngineState.INGAME_PUT_PIECE.ordinal())
 			return false;
 
 		try {

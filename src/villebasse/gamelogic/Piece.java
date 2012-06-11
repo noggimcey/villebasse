@@ -57,8 +57,10 @@ public abstract class Piece
 		return rotatedEdges;
 	}
 
-	public List getMeeples()
+	public List<Meeple> getMeeples()
 	{
+		if (this.meeples == null)
+			return (List) new LinkedList();
 		return (List) this.meeples;
 	}
 
