@@ -21,9 +21,7 @@ public class UISwing
 	implements UI
 {
 	private JFrame mainwin;
-	private Deck deck;
-	private Board board;
-
+	private VilleBasseEngine engine;
 
 	public boolean initialize(String args[])
 	{
@@ -34,12 +32,7 @@ public class UISwing
 			return false;
 		}
 
-		this.deck = new DefaultDeckWithoutCloisters();
-		try {
-			this.board = new Board(this.deck);
-		} catch (Exception e) {
-			System.err.println(e);
-		}
+		this.engine = new VilleBasseEngine();
 
 		return true;
 	}
@@ -47,72 +40,68 @@ public class UISwing
 
 	public void run()
 	{
-		this.mainwin = new MainWindow(this.board, this.deck);
+		this.mainwin = new MainWindow(this.engine);
 	}
 
 
 	private class MainWindow extends JFrame //implements ComponentListener
 		implements BoardEventListener
 	{
-		private Board board;
 		private BoardPanel boardPanel;
 		private ControlPanel controlPanel;
-		private Deck deck;
-		private Piece piece;
+		private VilleBasseEngine engine;
 
-		public MainWindow(Board board, Deck deck)
+		public MainWindow(VilleBasseEngine engine)
 		{
-			this.board = board;
-			this.deck = deck;
+			this.engine = engine;
 
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setPreferredSize(new Dimension(400, 400));
 			//new BoxLayout(this, BoxLayout.Y_AXIS);
 
-			this.boardPanel = new BoardPanel(board);
+			this.boardPanel = new BoardPanel(this.engine.getBoard());
 			this.boardPanel.addBoardEventListener((BoardEventListener) this);
 			this.add(this.boardPanel);
 
 			this.controlPanel = new ControlPanel();
 			//this.add(this.controlPanel);
 
-			drawPiece();
+			this.engine.addPlayer("foo", Color.pink);
+			this.engine.addPlayer("foo", Color.gray);
+
+			this.engine.startGame();
+			this.boardPanel.setNextPiece(new GUIPiece(this.engine.getCurrentPiece(), true));
 			this.pack();
 			this.setVisible(true);
 		}
 
 		public void boardEventOccurred(BoardEvent be)
 		{
-			int x = be.x;
-			int y = be.y;
+			if (this.engine.getState() == VilleBasseEngine.EngineState.INGAME_PUT_PIECE) {
+				int x = be.x;
+				int y = be.y;
 
-			System.err.println("boardEventOccurred: " + x + "," + y);
+				if (!this.engine.putPiece(x, y))
+					return;
 
-			if (be.getID() == 1) {
-				this.piece.rotate();
-				return;
+				this.boardPanel.setNextPiece(null);
+			} else if (this.engine.getState() == VilleBasseEngine.EngineState.INGAME_PLACE_MEEPLE) {
+				if (be.getID() == 0) {
+					double dx = be.dx;
+					double dy = be.dy;
+					this.engine.placeMeeple(dx, dy);
+					System.err.println(dx + "  " + dy);
+				}
+				this.nextTurn();
 			}
-
-			try {
-				this.board.putPieceRelative(x, y, this.piece);
-				this.boardPanel.update();
-				drawPiece();
-			} catch (Exception e) {
-				System.err.println(e);
-			}
+			this.boardPanel.update();
 		}
 
-		private void drawPiece()
+		private void nextTurn()
 		{
-			try {
-				this.piece = this.deck.draw();
-				this.boardPanel.setNextPiece(new GUIPiece(this.piece));
-				System.out.println(this.piece);
-			} catch (Exception e) {
-				this.piece = null;
-				this.boardPanel.setNextPiece(null);
-				System.err.println(e);
-			}
+			if (!this.engine.nextTurn())
+				return;
+			this.boardPanel.setNextPiece(new GUIPiece(this.engine.getCurrentPiece(), true));
 		}
 	}
 

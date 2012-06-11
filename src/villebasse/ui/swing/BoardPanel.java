@@ -76,25 +76,28 @@ public class BoardPanel extends JPanelWithCustomEvents
 
 	public void mouseReleased(MouseEvent e)
 	{
+		Insets b = ((EmptyBorder) this.getBorder()).getBorderInsets();
+		int relX = e.getX() - b.left;
+		int relY = e.getY() - b.top;
+		double ps = this.boardGrid.getPieceSize();
+
+		int x = (int)(relX / ps) - 1;
+		int y = (int)(relY / ps) - 1;
+
+		double dx = (relX - (x + 1) * ps) / ps;
+		double dy = (relY - (y + 1) * ps) / ps;
+
 		if (e.getButton() != MouseEvent.BUTTON1) {
-			this.dispatchEvent(new BoardEvent(this, 1));
-			this.repaint();
+			if (this.nextPiece != null) {
+				this.nextPiece.rotateClockWise();
+				this.repaint();
+			} else {
+				this.dispatchEvent(new BoardEvent(this, x, y, dx, dy, 1));
+			}
 			return;
 		}
 
-		Dimension bs = this.boardGrid.getPreferredSize();
-		Insets b = ((EmptyBorder) this.getBorder()).getBorderInsets();
-
-		int x = e.getX() - b.left;
-		int y = e.getY() - b.top;
-
-		if (x < 0 || x >= bs.width || y < 0 || y >= bs.height)
-			return;
-
-		double ps = this.boardGrid.getPieceSize();
-		x = (int)(x / ps) - 1;
-		y = (int)(y / ps) - 1;
-		this.dispatchEvent(new BoardEvent(this, x, y, 0));
+		this.dispatchEvent(new BoardEvent(this, x, y, dx, dy, 0));
 	}
 
 	private void pad()
@@ -120,7 +123,6 @@ public class BoardPanel extends JPanelWithCustomEvents
 		double ps = this.boardGrid.getPieceSize();
 		int ips = (int)(ps * 0.95);
 		this.nextPiece.setSize(new Dimension(ips, ips));
-		this.nextPiece.getTransform();
 
 		((Graphics2D) g).translate(this.mouseX - ps / 2, this.mouseY - ps / 2);
 		this.nextPiece.paint(g);

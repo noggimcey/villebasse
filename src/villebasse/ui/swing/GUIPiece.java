@@ -3,6 +3,9 @@ package villebasse.ui.swing;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+//import java.awt.geom.Ellipse2D.Double;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -104,10 +107,23 @@ public class GUIPiece extends JPanelWithCustomEvents
 		int size = Math.min(this.getWidth(), this.getHeight());
 
 		if (this.image != null) {
-			((Graphics2D) graphics).drawImage(this.image, transform(size), null);
+			Graphics2D g2d = (Graphics2D) graphics;
+			g2d.drawImage(this.image, this.transform(size), null);
+			for (Meeple m : this.piece.getMeeples()) {
+				g2d.setPaint(m.getColor());
+				g2d.fill(this.meepleShape(m, size));
+			}
 		} else {
 			graphics.drawRect(1, 1, size - 2, size - 2);
 		}
+	}
+
+	private Shape meepleShape(Meeple m, int size)
+	{
+		double r = size * 0.1;
+		double x = m.getX() * size;
+		double y = m.getY() * size;
+		return new Ellipse2D.Double(x - r , y - r, 2 * r, 2 * r);
 	}
 
 	/**

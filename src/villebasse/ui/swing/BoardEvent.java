@@ -9,6 +9,7 @@ import java.awt.AWTEvent;
 public class BoardEvent extends AWTEvent
 {
 	public int x, y;
+	public double dx, dy;
 
 	/**
 	 * BoardEvent-luokan konstruktori.
@@ -56,5 +57,14 @@ public class BoardEvent extends AWTEvent
 		super(source, type);
 		this.x = x;
 		this.y = y;
+	}
+
+	public BoardEvent(Object source, int x, int y, double dx, double dy, int type)
+	{
+		super(source, type);
+		this.x = x;
+		this.y = y;
+		this.dx = dx;
+		this.dy = dy;
 	}
 }
