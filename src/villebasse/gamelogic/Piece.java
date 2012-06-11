@@ -57,6 +57,11 @@ public abstract class Piece
 		return rotatedEdges;
 	}
 
+	/**
+	 * Lista palalla olevista nappuloista.
+	 *
+	 * @return Palalla olevat nappulat
+	 */
 	public List<Meeple> getMeeples()
 	{
 		if (this.meeples == null)
@@ -64,7 +69,15 @@ public abstract class Piece
 		return (List) this.meeples;
 	}
 
-	public boolean placeMeeple(double x, double y, Meeple m)
+	/**
+	 * Aseta nappula palalle.
+	 *
+	 * @param x  Vaakasuuntainen koordinaatti (0..1)
+	 * @param y  Pystysuuntainen koordinaatti (0..1)
+	 * @param meeple  Asetettava nappula
+	 * @return Onnistuiko asettaminen
+	 */
+	public boolean placeMeeple(double x, double y, Meeple meeple)
 	{
 		if (m == null)
 			return false;
@@ -78,6 +91,13 @@ public abstract class Piece
 		return true;
 	}
 
+	/**
+	 * Poista koordinaateissa oleva nappula.
+	 *
+	 * @param x  Vaakasuuntainen koordinaatti (0..1)
+	 * @param y  Pystysuuntainen koordinaatti (0..1)
+	 * @return Poistettu nappula tai null
+	 */
 	public Meeple removeMeeple(double x, double y)
 	{
 		if (this.meeples == null)

@@ -74,11 +74,30 @@ public class Board
 		return arr;
 	}
 
+	/**
+	 * Absoluuttisissa koordinaateissa oleva pala.
+	 *
+	 * Absoluuttiset koordinaatit lähtevät aloituspalasta (0,0) joka suuntaan.
+	 *
+	 * @param x  Vaakasuuntainen koordinaatti
+	 * @param y  Pystysuuntainen koordinaatti
+	 * @return Koordinaateissa oleva pala
+	 */
 	public Piece getPieceAbsolute(int x, int y)
 	{
 		return this.get(x, y);
 	}
 
+	/**
+	 * Suhteellisissa koordinaateissa oleva pala.
+	 *
+	 * Laudan vasemmanpuoleisin pala on suhteellisessa vaakakoordinaatissa 0
+	 * ja ylimpänä oleva pala suhteellisessa pystykoordinaatissa 0.
+	 *
+	 * @param x  Vaakasuuntainen koordinaatti
+	 * @param y  Pystysuuntainen koordinaatti
+	 * @return Koordinaateissa oleva pala
+	 */
 	public Piece getPieceRelative(int x, int y)
 	{
 		return this.get(x + this.minX, y + this.minY);
@@ -124,6 +143,12 @@ public class Board
 		this.putPieceAbsolute(x + this.minX, y + this.minY, piece);
 	}
 
+	/**
+	 * Poista pala laudalta.
+	 *
+	 * @param piece  Poistettava pala
+	 * @return Poistettu pala tai null
+	 */
 	public Piece removePiece(Piece piece)
 	{
 		if (piece == null)
