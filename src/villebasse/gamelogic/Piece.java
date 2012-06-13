@@ -1,8 +1,5 @@
 package villebasse.gamelogic;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
 /**
  * Kuvaa laudalle asetettavaa laattaa.
@@ -17,7 +14,7 @@ public abstract class Piece
 
 	protected Direction rotation = new Direction(Direction.NORTH);
 	protected Terrain[] edges;
-	protected LinkedList<Meeple> meeples;
+	protected Meeple meeple;
 
 	/**
 	 * Palan asento.
@@ -58,15 +55,23 @@ public abstract class Piece
 	}
 
 	/**
-	 * Lista palalla olevista nappuloista.
+	 * Palalla oleva nappula.
 	 *
 	 * @return Palalla olevat nappulat
 	 */
-	public List<Meeple> getMeeples()
+	public Meeple getMeeple()
 	{
-		if (this.meeples == null)
-			return (List) new LinkedList();
-		return (List) this.meeples;
+		return this.meeple;
+	}
+
+	/**
+	 * Onko palalla nappula.
+	 *
+	 * @return Onko palalla nappula
+	 */
+	public boolean hasMeeple()
+	{
+		return this.meeple != null;
 	}
 
 	/**
@@ -79,39 +84,25 @@ public abstract class Piece
 	 */
 	public boolean placeMeeple(double x, double y, Meeple meeple)
 	{
-		if (meeple == null)
+		if (meeple == null || this.hasMeeple())
 			return false;
 
-		if (this.meeples == null)
-			this.meeples = new LinkedList<Meeple>();
-
 		meeple.place(x, y);
-		this.meeples.add(meeple);
+		this.meeple = meeple;
 
 		return true;
 	}
 
 	/**
-	 * Poista koordinaateissa oleva nappula.
+	 * Poista palalla oleva nappula.
 	 *
-	 * @param x  Vaakasuuntainen koordinaatti (0..1)
-	 * @param y  Pystysuuntainen koordinaatti (0..1)
 	 * @return Poistettu nappula tai null
 	 */
-	public Meeple removeMeeple(double x, double y)
+	public Meeple removeMeeple()
 	{
-		if (this.meeples == null)
-			return null;
-
-		for (ListIterator<Meeple> it = this.meeples.listIterator(0); it.hasNext(); ) {
-			Meeple m = it.next();
-			if (m.isAt(x, y)) {
-				it.remove();
-				return m;
-			}
-		}
-
-		return null;
+		Meeple m = this.meeple;
+		this.meeple = null;
+		return m;
 	}
 
 	/**

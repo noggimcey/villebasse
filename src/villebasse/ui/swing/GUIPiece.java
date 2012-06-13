@@ -109,7 +109,8 @@ public class GUIPiece extends JPanelWithCustomEvents
 		if (this.image != null) {
 			Graphics2D g2d = (Graphics2D) graphics;
 			g2d.drawImage(this.image, this.transform(size), null);
-			for (Meeple m : this.piece.getMeeples()) {
+			if (this.piece.hasMeeple()) {
+				Meeple m = this.piece.getMeeple();
 				g2d.setPaint(m.getColor());
 				g2d.fill(this.meepleShape(m, size));
 			}

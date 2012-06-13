@@ -2,9 +2,10 @@ package villebasse.gamelogic;
 
 import java.awt.Color;
 import java.util.Vector;
+import villebasse.gamelogic.defaultpieces.*;
 
 /**
- * Pelimoottori
+ * Pelimoottori.
  *
  */
 
@@ -231,7 +232,7 @@ public class VilleBasseEngine
 	 *
 	 * @return Jäljellä olevien laattojen lukumäärä.
 	 */
-	public boolean removeMeeple(int pieceX, int pieceY, double meepleX, double meepleY, int points)
+	public boolean removeMeeple(int pieceX, int pieceY, int points)
 	{
 		if (this.state.ordinal() < EngineState.INGAME_PLACE_MEEPLE.ordinal())
 			return false;
@@ -240,13 +241,11 @@ public class VilleBasseEngine
 		if (piece == null)
 			return false;
 
-		Meeple meeple = piece.removeMeeple(meepleX, meepleY);
-		if (meeple == null)
+		if (!piece.hasMeeple())
 			return false;
 
-		meeple.getPlayer().returnMeeple(points);
-
-		return true;
+		Meeple meeple = piece.removeMeeple();
+		return meeple.getPlayer().returnMeeple(meeple, points);
 	}
 
 	/**
