@@ -40,9 +40,9 @@ public class Player
 	}
 
 	/**
-	 * Instanssin color-muuttujan getteri.
+	 * Pelaajan väri.
 	 *
-	 * @return Instanssin color-muuttujan arvo
+	 * @return Pelaajan väri
 	 */
 	public Color getColor()
 	{
@@ -50,9 +50,19 @@ public class Player
 	}
 
 	/**
-	 * Instanssin name-muuttujan getteri.
+	 * Paljonko pelaajalla on pisteitä.
 	 *
-	 * @return Instanssin name-muuttujan arvo
+	 * @return Pelaajan pistemäärä
+	 */
+	public int getPoints()
+	{
+		return this.points;
+	}
+
+	/**
+	 * Pelaajan nimi.
+	 *
+	 * @return Pelaajan nimi
 	 */
 	public String getName()
 	{
@@ -72,20 +82,35 @@ public class Player
 	/**
 	 * Palauta pelaajan pelinappula ja lisää pelaajalle pisteitä.
 	 *
+	 * @param meeple  Palautettava pelinappula
 	 * @param points  Lisättävä pistemäärä (voi olla negatiivinen)
+	 * @return Onnistuiko nappulan palauttaminen
 	 */
-	public int returnMeeple(int points)
+	public boolean returnMeeple(Meeple meeple, int points)
 	{
+		if (meeple == null || meeple.getPlayer() != this)
+			return false;
+
 		this.meeplesLeft++;
 		this.points += points;
-		return this.points;
+		return true;
+	}
+
+	/**
+	 * Montako pelinappulaa pelaajalla on.
+	 *
+	 * @return Montako pelinappulaa pelaajalla on jäljellä
+	 */
+	public int meeplesLeft()
+	{
+		return this.meeplesLeft;
 	}
 
 	/**
 	 * Ota pelaajalta yksi pelinappula.
 	 *
 	 * @return Pelaajalle kuulava pelinappula tai null, jos pelaajalla ei ole
-	 * nappuloita jäljellä.
+	 *         nappuloita jäljellä.
 	 */
 	public Meeple takeMeeple()
 	{
