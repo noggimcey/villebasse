@@ -33,7 +33,8 @@ public class Board
 	 * Board-luokan konstruktori.
 	 *
 	 * @param initialPiece  Laudan aloituspala
-	 * @param numberOfPieces  Monelleko palalle varataan tila (kasvaa automaattisesti)
+	 * @param numberOfPieces  Monelleko palalle varataan tila (kasvaa
+	 *                        automaattisesti)
 	 */
 	public Board(Piece initialPiece, int numberOfPieces)
 	{

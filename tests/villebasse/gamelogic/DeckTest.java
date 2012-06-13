@@ -96,5 +96,4 @@ public class DeckTest {
 		deck.putBack(p);
 		assertEquals(deck.size(), size);
 	}
-
 }
