@@ -10,36 +10,20 @@ public class DefaultDeckWithoutRoads extends Deck
 	{
 		this.pieces = new Vector<Piece>(72);
 
-		for (int i = 0; i < 5; ++i)
-			this.pieces.add(new PieceDiagonalCity());
-
-		for (int i = 0; i < 3; ++i)
-			this.pieces.add(new PieceCityEndWithIntersection());
-
-		for (int i = 0; i < 3; ++i)
-			this.pieces.add(new PieceFacingCities());
-
-		for (int i = 0; i < 4; ++i)
-			this.pieces.add(new PieceTIntersection());
-
-		for (int i = 0; i < 4; ++i)
-			this.pieces.add(new PieceBigCity());
-
-		for (int i = 0; i < 2; ++i)
-			this.pieces.add(new PieceCityCorner());
-
-		for (int i = 0; i < 4; ++i)
-			this.pieces.add(new PieceCityEnd());
-
-		for (int i = 0; i < 3; ++i)
-			this.pieces.add(new PieceCityPipe());
-
-		for (int i = 0; i < 4; ++i)
-			this.pieces.add(new PieceCloister());
-
-		this.pieces.add(new PieceFullCity());
+		this.addPiecesByName("PieceBigCity", 4);
+		this.addPiecesByName("PieceCityCorner", 2);
+		this.addPiecesByName("PieceCityEnd", 4);
+		this.addPiecesByName("PieceCityEndWithIntersection", 3);
+		this.addPiecesByName("PieceCityPipe", 3);
+		this.addPiecesByName("PieceCloister", 4);
+		this.addPiecesByName("PieceDiagonalCity", 5);
+		this.addPiecesByName("PieceFacingCities", 3);
+		this.addPiecesByName("PieceFullCity", 1);
+		this.addPiecesByName("PieceTIntersection", 4);
+		this.addPiecesByName("PieceXIntersection", 1);
 
 		this.shuffle();
-		this.pieces.add(new PieceCityEnd());
+
+		this.addPiecesByName("PieceCityEnd", 1);
 	}
 }

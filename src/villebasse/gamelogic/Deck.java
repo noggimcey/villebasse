@@ -73,6 +73,16 @@ public abstract class Deck
 		return this.pieces.size();
 	}
 
+	protected boolean addPiecesByName(String name, int amount)
+	{
+		try {
+			while (amount-- > 0)
+				this.pieces.add(Piece.pieceByName(name));
+			return true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 	private void FisherYatesShuffle(Vector v)
 	{

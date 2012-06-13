@@ -1,5 +1,6 @@
 package villebasse.gamelogic;
 
+import java.lang.reflect.Constructor;
 
 /**
  * Kuvaa laudalle asetettavaa laattaa.
@@ -155,5 +156,41 @@ public abstract class Piece
 			ret += t + " ";
 
 		return ret;
+	}
+
+
+	/**
+	 * Etsi nimeä vastaava palaluokka.
+	 *
+	 * @param name  Luokan nimi
+	 * @return Luokka
+	 * @throws ClassNotFoundException  Nimeä vastaavaa luokkaa ei löydy
+	 */
+	public static Class findClass(String name)
+		throws ClassNotFoundException
+	{
+		try {
+			return Class.forName(name);
+		} catch (Exception e) {
+			return Class.forName("villebasse.gamelogic.defaultpieces." + name);
+		}
+	}
+
+	/**
+	 * Luo uusi pala nimen perusteella.
+	 *
+	 * @param name  Palaluokan nimi
+	 * @return Uusi nimeä vastaava pala
+	 * @throws ReflectiveOperationException  Luokkaa tai sopivaa konstruktoria
+	 *         ei löydy
+	 */
+	public static Piece pieceByName(String name)
+		throws Exception
+		//throws ReflectiveOperationException
+		// java 1.7
+	{
+		Class pieceClass = findClass(name);
+		Constructor<Piece> constr = pieceClass.getConstructor();
+		return constr.newInstance();
 	}
 }
