@@ -26,7 +26,7 @@ public class UISwing
 	public boolean initialize(String args[])
 	{
 		try {
-			GUIPiece.setMapper(new ScannedMapper());
+			GUIPiece.setMapper(new DrawnMapper());
 		} catch (Exception e) {
 			System.err.println(e);
 			return false;
