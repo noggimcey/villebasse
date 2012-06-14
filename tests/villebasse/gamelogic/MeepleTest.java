@@ -50,12 +50,19 @@ public class MeepleTest {
 	{
 		Random rnd = new Random();
 
+		double x, y, a, b;
 		for (int i = 0; i < 10; ++i) {
-			double x = rnd.nextDouble();
-			double y = rnd.nextDouble();
+			x = rnd.nextDouble();
+			y = rnd.nextDouble();
+			meeple.place(x, y);
+
+			a = x + 1.1 * Meeple.epsilon * (rnd.nextBoolean() ? 1 : -1);
+			b = y + 1.1 * Meeple.epsilon * (rnd.nextBoolean() ? 1 : -1);
+			assertFalse(meeple.isAt(a, b));
+
 			for (int j = 0; j < 10; ++j) {
-				double a = (2 * rnd.nextDouble() - 1) / Meeple.epsilon;
-				double b = (2 * rnd.nextDouble() - 1) / Meeple.epsilon;
+				a = x + (2 * rnd.nextDouble() - 1) * Meeple.epsilon;
+				b = y + (2 * rnd.nextDouble() - 1) * Meeple.epsilon;
 				assertTrue(meeple.isAt(a, b));
 			}
 		}

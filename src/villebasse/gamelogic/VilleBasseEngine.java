@@ -83,6 +83,9 @@ public class VilleBasseEngine
 		if (this.state != EngineState.INITIALIZATION || player == null)
 			return false;
 
+		if (this.players.contains(player))
+			return false;
+
 		this.players.add(player);
 		return true;
 	}
