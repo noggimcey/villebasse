@@ -20,17 +20,9 @@ import villebasse.gamelogic.*;
 public abstract class PieceToImageMapper
 {
 	protected String baseDirectory, prefix, postfix;
-	protected HashMap<String, Vector<BufferedImage>> images = new HashMap(16);
+	protected HashMap<Class, Vector<BufferedImage>> images = new HashMap(16);
 	protected HashMap<Piece, BufferedImage> cache = new HashMap(72);
 
-
-	/**
-	 * Hae tyhjää palaa vastaava kuva.
-	 */
-	public BufferedImage map()
-	{
-		return map(null);
-	}
 
 	/**
 	 * Hae palaa vastaava kuva.
@@ -41,13 +33,16 @@ public abstract class PieceToImageMapper
 	 */
 	public BufferedImage map(Piece piece)
 	{
-		BufferedImage image = checkCache(piece);
+		if (piece == null)
+			return null;
 
-		if (image == null) {
-			image = randomImage(pieceClass(piece));
-			if (image != null && piece != null)
+		BufferedImage image = checkCache(piece);
+		if (image != null)
+			return image;
+
+		image = randomImage(piece.getClass());
+		if (image != null)
 				this.cache.put(piece, image);
-		}
 
 		return image;
 	}
@@ -64,15 +59,23 @@ public abstract class PieceToImageMapper
 	protected boolean addImages(String pieceType, String[] files)
 		throws IOException
 	{
+		Class pieceClass = null;
+
+		try {
+			pieceClass = Piece.findClass(pieceType);
+		} catch (Exception e) {
+			return false;
+		}
+
 		Vector<BufferedImage> newImages = openImages(files);
 		if (newImages == null || newImages.size() == 0)
 			return false;
 
-		Vector<BufferedImage> oldImages = this.images.get(pieceType);
-		if (oldImages == null)
-			this.images.put(pieceType, newImages);
-		else
+		Vector<BufferedImage> oldImages = this.images.get(pieceClass);
+		if (oldImages != null)
 			oldImages.addAll(newImages);
+		else
+			this.images.put(pieceClass, newImages);
 
 		return true;
 	}
@@ -152,26 +155,12 @@ public abstract class PieceToImageMapper
 	 *
 	 * @return Satunnainen kuva tai 'null'
 	 */
-	protected BufferedImage randomImage(String name)
+	protected BufferedImage randomImage(Class pieceClass)
 	{
-		Vector<BufferedImage> images = this.images.get(name);
+		Vector<BufferedImage> images = this.images.get(pieceClass);
 		if (images == null || images.size() == 0)
 			return null;
 		return select(images);
-	}
-
-	/**
-	 * Palan luokka
-	 *
-	 * @param piece  Pala
-	 *
-	 * @return Palan luokka
-	 */
-	protected static String pieceClass(Piece piece)
-	{
-		if (piece == null)
-			return "null";
-		return piece.getClass().getName();
 	}
 
 

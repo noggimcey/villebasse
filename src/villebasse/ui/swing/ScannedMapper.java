@@ -9,143 +9,105 @@ public class ScannedMapper extends PieceToImageMapper
 		this.prefix = "maskd_";
 		this.postfix = "_256x256.gif";
 
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityCorner",
-			new String[]{
-				"020",
-				"023",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityPipe",
-			new String[]{
-				"030",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceBigCity",
-			new String[]{
-				"002",
-				"005",
-				"008",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceDiagonalCityWithRoad",
-			new String[]{
-				"003",
-				"006",
-				"012",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityEndWithIntersection",
-			new String[]{
-				"004",
-				"007",
-				"010",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceBigCityWithRoad",
-			new String[]{
-				"014",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityEndWithRoadRight",
-			new String[]{
-				"015",
-				"021",
-				"027",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityEndWithRoad",
-			new String[]{
-				"016",
-				"019",
-				"022",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityEndWithRoadLeft",
-			new String[]{
-				"018",
-				"024",
-				"026",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceFacingCities",
-			new String[]{
-				"031",
-				"032",
-				"033",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceDiagonalCity",
-			new String[]{
-				"034",
-				"035",
-				"039",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCityEnd",
-			new String[]{
-				"036_rot",
-				"037_rot",
-				"041",
-				"042",
-				"045",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceRoadTurn",
-			new String[]{
-				"046",
-				"047",
-				"056",
-				"061",
-				"063",
-				"064",
-				"067",
-				"069",
-				"071",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceRoad",
-			new String[]{
-				"050",
-				"052",
-				"055",
-				"060",
-				"062",
-				"065",
-				"066",
-				"070",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceTIntersection",
-			new String[]{
-				"051",
-				"058",
-				"059",
-				"068",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceXIntersection",
-			new String[]{
-				"057",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCloister",
-			new String[]{
-				"043",
-				"044",
-				"053",
-				"054",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceCloisterWithRoad",
-			new String[]{
-				"048",
-				"049",
-			}
-		);
-		addImages("villebasse.gamelogic.defaultpieces.PieceFullCity",
-			new String[]{
-				"013",
-			}
-		);
+		addImages("PieceCityCorner", new String[]{
+			"020",
+			"023",
+		});
+		addImages("PieceCityPipe", new String[]{
+			"030",
+		});
+		addImages("PieceBigCity", new String[]{
+			"002",
+			"005",
+			"008",
+		});
+		addImages("PieceDiagonalCityWithRoad", new String[]{
+			"003",
+			"006",
+			"012",
+		});
+		addImages("PieceCityEndWithIntersection", new String[]{
+			"004",
+			"007",
+			"010",
+		});
+		addImages("PieceBigCityWithRoad", new String[]{
+			"014",
+		});
+		addImages("PieceCityEndWithRoadRight", new String[]{
+			"015",
+			"021",
+			"027",
+		});
+		addImages("PieceCityEndWithRoad", new String[]{
+			"016",
+			"019",
+			"022",
+		});
+		addImages("PieceCityEndWithRoadLeft", new String[]{
+			"018",
+			"024",
+			"026",
+		});
+		addImages("PieceFacingCities", new String[]{
+			"031",
+			"032",
+			"033",
+		});
+		addImages("PieceDiagonalCity", new String[]{
+			"034",
+			"035",
+			"039",
+		});
+		addImages("PieceCityEnd", new String[]{
+			"036_rot",
+			"037_rot",
+			"041",
+			"042",
+			"045",
+		});
+		addImages("PieceRoadTurn", new String[]{
+			"046",
+			"047",
+			"056",
+			"061",
+			"063",
+			"064",
+			"067",
+			"069",
+			"071",
+		});
+		addImages("PieceRoad", new String[]{
+			"050",
+			"052",
+			"055",
+			"060",
+			"062",
+			"065",
+			"066",
+			"070",
+		});
+		addImages("PieceTIntersection", new String[]{
+			"051",
+			"058",
+			"059",
+			"068",
+		});
+		addImages("PieceXIntersection", new String[]{
+			"057",
+		});
+		addImages("PieceCloister", new String[]{
+			"043",
+			"044",
+			"053",
+			"054",
+		});
+		addImages("PieceCloisterWithRoad", new String[]{
+			"048",
+			"049",
+		});
+		addImages("PieceFullCity", new String[]{
+			"013",
+		});
 	}
 }
