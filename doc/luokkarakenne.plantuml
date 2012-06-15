@@ -3,20 +3,21 @@
 @startuml luokkarakenne.png
 
 package villebasse.gamelogic
+
 	class Board {
 		+{static} int defaultNumberOfPieces = 72
-		-HashMap<Point, Piece> pieces
-		-int maxX
-		-int maxY
-		-int minX
-		-int minY
 
 		+Board(Piece initialPiece)
 		+Board(Piece initialPiece, int numberOfPieces)
 		+Board(Deck deck)
 		+Piece[][] asArray()
+		+Piece getPieceAbsolute(int x, int y)
+		+Piece getPieceRelative(int x, int y)
 		+void putPieceAbsolute(int x, int y, Piece piece)
 		+void putPieceAbsolute(int x, int y, Piece piece)
+		+Piece removePiece(Piece piece)
+		+Piece removePieceAbsolute(int x, int y)
+		+Piece removePieceRelative(int x, int y)
 		+int height()
 		+int width()
 	}
@@ -29,9 +30,10 @@ package villebasse.gamelogic
 		+boolen putBack(Piece piece)
 		+void shuffle()
 		+int size()
+		#boolean addPiecesByName(String name, int amount)
 	}
 
-	class Direction {
+	class Direction <implements Iterable<Direction>> {
 		+{static} int NORTH
 		+{static} int EAST
 		+{static} int SOUTH
@@ -40,6 +42,7 @@ package villebasse.gamelogic
 		+Direction()
 		+Direction(int direction)
 		+boolean equals(Direction that)
+		+boolean equals(int direction)
 		+Iterator<Direction> iterator()
 		+Direction next()
 		+Direction modulate(Direction direction)
@@ -51,37 +54,135 @@ package villebasse.gamelogic
 		+String toString()
 	}
 
+	class GameStateEvent <extends EventObject> {
+		+GameStateEvent(VilleBasseEngine source)
+	}
+
+	interface GameStateEventListener {
+		+void gameStateGameEnd(GameStateEvent gse)
+		+void gameStateGameStart(GameStateEvent gse)
+		+void gameStatePlaceMeeple(GameStateEvent gse)
+		+void gameStateRemoveMeeples(GameStateEvent gse)
+		+void gameStateRoundStart(GameStateEvent gse)
+		+void gameStateTurnStart(GameStateEvent gse)
+	}
+
+	class Meeple {
+		+{static} double epsilon
+
+		+Meeple(Player player)
+		+Color getColor()
+		+Player getPlayer()
+		+double getX()
+		+double getY()
+		+boolean isAt(double x, double y)
+		+void place(double x, double y)
+	}
+
 	abstract class Piece {
 		#Direction rotation
 		#Terrain[] edges
+		#Meeple meeple
 
 		+Direction getDirection()
 		+Terrain edge(Direction direction)
 		+Terrain[] edges()
+		+Meeple getMeeple()
+		+boolean hasMeeple()
+		+boolean placeMeeple()
+		+Meeple removeMeeple()
 		+void rotate()
 		+void rotate(int numberOfTimes)
 		+void setRotation(int direction)
 		+void setRotation(Direction direction)
 		+String toString()
+
+		#Class findClass(String name)
+		#Piece pieceByName(String name)
 	}
 
+	class Player {
+		+Player(String name, Color color)
+		+Player(String name, Color color, int meeplesLeft)
+		+int addPoints(int points)
+		+Color getColor()
+		+int getPoints()
+		+String getName()
+		+boolean hasMeeples()
+		+boolean returnMeeple(Meeple meeple, int points)
+		+int meeplesLeft()
+		+Meeple takeMeeple()
+	}
+
+	class VilleBasseEngine {
+		+VilleBasseEngine()
+		+VilleBasseEngine(Deck deck)
+		+void addGameStateEventListener(GameStateEventListener gsl)
+		+boolean addPlayer(String name, Color color)
+		+boolean addPlayer(Player player)
+		+boolean addPoints(int points)
+		+Board getBoard()
+		+Deck getDeck()
+		+Piece getCurrentPiece()
+		+Player getCurrentPlayer()
+		+int getRoundNumber()
+		+Vector<Players> getPlayers()
+		+EngineState getState()
+		+int getTurnNumber()
+		+boolean nextTurn()
+		+boolean placeMeeple()
+		+boolean placeMeeple(double x, double y)
+		+boolean placeMeeple(int pieceX, int pieceY, double meepleX, double meepleY)
+		+boolean putPiece(int x, int y)
+		+int piecesLeft()
+		+void removeGameStateEventListener(gsl)
+		+boolean removeMeeple(int x, int y)
+		+boolean removeMeeple(int x, int y, int points)
+		+boolean replaceCurrentPiece()
+		+void setGameStateEventListener(gsl)
+		+boolean startGame()
+	}
 
 	' relations
 
-	Deck <|-- DefaultDeck
-	Deck <|-- DefaultDeckWithoutRoads
-	Deck <|-- RiverExpansion
+	class DefaultDeck extends Deck
+	class DefaultDeckWithoutCloisters extends Deck
+	class DefaultDeckWithoutRoads extends Deck
+	class InfiniteDeck extends Deck
 
-	Piece <|-- PieceBigCity
-	Piece <|-- PieceCityCorner
-	Piece <|-- PieceCityPipe
-	Piece <|-- PieceBigField
+	'class PieceBigCity extends Piece
+	'class PieceBigCityWithRoad extends Piece
+	'class PieceCityCorner extends Piece
+	'class PieceCityEnd extends Piece
+	'class PieceCityEndWithIntersection extends Piece
+	'class PieceCityEndWithRoad extends Piece
+	'class PieceCityEndWithRoadLeft extends Piece
+	'class PieceCityEndWithRoadRight extends Piece
+	'class PieceCityPipe extends Piece
+	'class PieceCloister extends Piece
+	'class PieceCloisterWithRoad extends Piece
+	'class PieceDiagonalCity extends Piece
+	'class PieceDiagonalCityWithRoad extends Piece
+	'class PieceFacingCities extends Piece
+	'class PieceFullCity extends Piece
+	'class PieceRoad extends Piece
+	'class PieceRoadTurn extends Piece
+	'class PieceTIntersection extends Piece
+	'class PieceXIntersection extends Piece
+	note right of Piece: Kaikki palat perivät tämän luokan.\nAlaluokat on jätetty pois selkeyden vuoksi.
 
 	Deck *-- Piece
 	Board *-- Piece
+	Piece *-- Meeple
+
+	Player --* Meeple
 
 	Board ..> Direction: uses
 	Piece ..> Direction: uses
+
+	VilleBasseEngine *- Deck
+	VilleBasseEngine *- Board
+	VilleBasseEngine *- Player
 end package
 
 package villebasse.ui
@@ -91,82 +192,123 @@ package villebasse.ui
 	}
 
 	package villebasse.ui.swing
-		class BoardEvent <extends AWTEvent> {
+		class BoardClickEvent extends UserEvent {
+			+{static} final int BUTTON1
+			+{static} final int BUTTON2
 			+int x
 			+int y
+			+int button
+			+double dx
+			+double dy
 
-			+BoardEvent(Object source)
-			+BoardEvent(Object source, int type)
-			+BoardEvent(Object source, int x, int y)
-			+BoardEvent(Object source, int x, int y, int type)
+			+BoardClickEvent(Object source)
+			+BoardClickEvent(Object source, int button)
+			+BoardClickEvent(Object source, int x, int y)
+			+BoardClickEvent(Object source, int x, int y, int button)
+			+BoardClickEvent(Object source, int x, int y, double dx, double dy, int button)
 		}
 
-		interface BoardEventListener <extends EventListener> {
-			+void boardEventOccurred(BoardEvent be)
+		interface BoardClickEventListener extends UserEventListener {
+			+void boardClickEventOccurred(BoardClickEvent bce)
 		}
 
-		class GUIPiece extends JPanelWithCustomEvents {
-			-{static} PieceToImageMapper mapper
-			-BufferedImage image
-			-Piece piece
-			-AffineTransform tx
-			-boolean rotateable
+		class BoardPanel extends JPanelUserEventSource {
+			+BoardPanel(Board board)
+			+void update()
+			+setNextPiece(Piece piece)
+		}
 
+		class ControlPanel extends JPanelUserEventSource {
+			+ControlPanel()
+			+void putText(String text)
+		}
+
+		class GUIPiece {
 			+{static} PieceToImageMapper setMapper(PieceToImageMapper mapper)
 			+GUIPiece()
 			+GUIPiece(Piece piece)
 			+GUIPiece(Piece piece, boolean rotateable)
+			+BufferedImage getImage()
+			+AffineTransform getTransform()
 			+void paint(Graphics g)
 			+void rotateAntiClockWise()
 			+void rotateClockWise()
 		}
 
 		class JPanelWithCustomEvents <extends JPanel> {
-			-Vector<BoardEventListener> boardEventListeners
-
-			+void addBoardEventListener(BoardEventListener listener)
-			+void dispatchEvent(BoardEvent be)
+			+void addUserEventListener(UserEventListener uel)
+			+void dispatchEvent(BoardClickEvent bce)
+			+void dispatchEvent(UserEvent ue)
+			+void removeUserEventListener(UserEventListener uel)
+			+void setUserEventListener(UserEventListener uel)
 		}
 
 		abstract class PieceToImageMapper {
 			#String baseDirectory
 			#String prefix
 			#String postfix
-			#HashMap<String, Vector<BufferedImage>> images
+			#HashMap<Class, Vector<BufferedImage>> images
 			#HashMap<Piece, BufferedImage> cache
 
-			+BufferedImage map()
 			+BufferedImage map(Piece piece)
-
 			#boolean addImages(String pieceType, String[] files)
 			#bufferedImage checkCache(Piece piece)
 			#String fullname(String name)
 			#BufferedImage openImage(String filename)
 			#Vector<BufferedImage> openImages(String filename)
 			#BufferedImage randomImage(String name)
-			#{static} String pieceClass(Piece piece)
 		}
 
-		class NullMapper extends PieceToImageMapper
-		class ScannedMapper extends PieceToImageMapper
+		class PlayerDialog <extends JDialog> {
+			+{static} Player[] showDialog(Frame owner, String title)
+			+PlayerDialog(Frame owner)
+			+boolean addPlayer()
+			+Player[] players()
+		}
+
+		class UISwing <extends JFrame> {
+		}
+
+		class UserEvent <extends EventObject> {
+			+UserEvent(Object source)
+			+UserEvent(Object source, String command)
+		}
+
+		class UserEventListener <extends EventListener> {
+			+void userEventOccurred(UserEvent ue)
+		}
+
 
 		' relations
 
+		BoardClickEvent <.. BoardPanel: produces
+		BoardClickEvent <.. UISwing: consumes
+
+		BoardPanel o-- GUIPiece
+		BoardPanel o-- Board
+
 		GUIPiece o-- Piece
-		GUIPiece --> PieceToImageMapper
+		GUIPiece ..> PieceToImageMapper: uses
+		GUIPiece ..> Direction: uses
 
-		UISwing ..> BoardEvent
-		UISwing ..> BoardEventListener
+		class UISwing implements UI
+		class UISwing implements BoardClickEventListener
+		class UISwing implements GameStateEventListener
+		class UISwing implements UserEventListener
+		UISwing o-- BoardPanel
+		UISwing o-- ControlPanel
+		UISwing o-- VilleBasseEngine
 
-		UISwing *-- GUIPiece
-		UISwing o-- Board
-		UISwing o-- Deck
-		UISwing o-- Piece
+		UISwing ..> PlayerDialog: uses
+
+		UserEvent <.. ControlPanel: produces
+		UserEvent <.. UISwing: consumes
+
+		class DrawnMapper extends PieceToImageMapper
+		class NullMapper extends PieceToImageMapper
+		class ScannedMapper extends PieceToImageMapper
 
 	end package
-
-	UI <|-- UIConsole
-	UI <|-- UISwing
 
 end package
 

@@ -285,7 +285,6 @@ public class VilleBasseEngine
 		try {
 			this.board.putPieceRelative(x, y, this.curPiece);
 		} catch (Exception e) {
-			System.err.println(e);
 			return false;
 		}
 
