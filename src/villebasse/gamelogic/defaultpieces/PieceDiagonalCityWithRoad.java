@@ -3,13 +3,12 @@ package villebasse.gamelogic.defaultpieces;
 import villebasse.gamelogic.Piece;
 
 
-/*  #######
- *  ######.
- *  ####..%
- *  ##..%%.
- *  #..%...
+/*   #######
+ *   ######.
+ *   ####...
+ *   ##.%%%%
+ *   #..%...
  */
-
 public class PieceDiagonalCityWithRoad extends Piece
 {
 	public PieceDiagonalCityWithRoad ()

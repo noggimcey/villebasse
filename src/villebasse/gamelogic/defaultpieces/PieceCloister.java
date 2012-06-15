@@ -9,8 +9,6 @@ import villebasse.gamelogic.Piece;
  *   ..===..
  *   .......
  */
-
-
 public class PieceCloister extends Piece
 {
 	public PieceCloister()

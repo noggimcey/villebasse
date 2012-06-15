@@ -5,11 +5,10 @@ import villebasse.gamelogic.Piece;
 
 /*   #######
  *   .#####.
- *   ......%
- *   ....%%.
+ *   .......
+ *   ...%%%%
  *   ...%...
  */
-
 public class PieceCityEndWithRoadRight extends Piece
 {
 	public PieceCityEndWithRoadRight ()

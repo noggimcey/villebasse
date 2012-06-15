@@ -9,8 +9,6 @@ import villebasse.gamelogic.Piece;
  *   #/---\#
  *   /.....\
  */
-
-
 public class PieceBigCity extends Piece
 {
 	public PieceBigCity()

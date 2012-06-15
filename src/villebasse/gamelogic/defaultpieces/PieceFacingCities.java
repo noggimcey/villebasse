@@ -9,7 +9,6 @@ import villebasse.gamelogic.Piece;
  *   ##...##
  *   #.....#
  */
-
 public class PieceFacingCities extends Piece
 {
 	public PieceFacingCities()
