@@ -25,13 +25,6 @@ public abstract class JPanelUserEventSource extends JPanel
 				((BoardClickEventListener) uel).boardClickEventOccurred(bc);
 	}
 
-	public void dispatchEvent(ControlPanelEvent cpe)
-	{
-		for (UserEventListener uel : this.listeners)
-			if (uel instanceof ControlPanelEventListener)
-				((ControlPanelEventListener) uel).controlPanelEventOccurred(cpe);
-	}
-
 	public void dispatchEvent(UserEvent ue)
 	{
 		for (UserEventListener uel : this.listeners)
@@ -48,16 +41,5 @@ public abstract class JPanelUserEventSource extends JPanel
 		this.listeners = new Vector<UserEventListener>(2);
 		if (uel != null)
 			this.addUserEventListener(uel);
-		/*
-		if (uel == null)
-			return;
-
-		ListIterator<UserEventListener> it = this.listeners.listIterator();
-		while (it.hasNext())
-			if (uel.getClass().equals(it.next().getClass()))
-				it.remove();
-
-		this.addUserEventListener(uel);
-		*/
 	}
 }

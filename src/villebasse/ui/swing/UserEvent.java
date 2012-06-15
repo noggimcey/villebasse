@@ -3,13 +3,21 @@ package villebasse.ui.swing;
 import java.util.EventObject;
 
 /**
- * Välittää laudalla tapahtuvia painalluksia.
+ * Välittää käyttäjän aiheuttamia tapahtumia.
  */
 
-public abstract class UserEvent extends EventObject
+public class UserEvent extends EventObject
 {
+	public String command;
+
 	public UserEvent(Object source)
 	{
+		this(source, null);
+	}
+
+	public UserEvent(Object source, String command)
+	{
 		super(source);
+		this.command = command;
 	}
 }

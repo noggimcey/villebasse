@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
  */
 
 public class UISwing extends JFrame
-	implements UI, GameStateEventListener, ControlPanelEventListener
+	implements UI, GameStateEventListener, UserEventListener
 {
 	private BoardPanel boardPanel;
 	private ControlPanel controlPanel;
@@ -46,7 +46,7 @@ public class UISwing extends JFrame
 		this.add(this.boardPanel, BorderLayout.CENTER);
 		this.add(this.controlPanel, BorderLayout.SOUTH);
 
-		this.controlPanel.addUserEventListener((ControlPanelEventListener) this);
+		this.controlPanel.addUserEventListener(this);
 
 		this.pack();
 
@@ -123,11 +123,6 @@ public class UISwing extends JFrame
 		);
 
 		this.boardPanel.setUserEventListener(new PutPieceListener());
-	}
-
-	public void controlPanelEventOccurred(ControlPanelEvent cpe)
-	{
-		System.err.println(cpe);
 	}
 
 	public void userEventOccurred(UserEvent ue) {}
