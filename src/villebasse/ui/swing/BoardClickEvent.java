@@ -2,8 +2,9 @@ package villebasse.ui.swing;
 
 /**
  * Välittää laudalla tapahtuvia painalluksia.
+ *
+ * Laajentaa yleistä käyttäjän aiheuttamaa tapahtumaa
  */
-
 public class BoardClickEvent extends UserEvent
 {
 	public static final int BUTTON1 = 1;
@@ -26,7 +27,7 @@ public class BoardClickEvent extends UserEvent
 	 * BoardClick-luokan konstruktori.
 	 *
 	 * @param source  Tapahtuman aiheuttanut objekti
-	 * @param type  Viestin tyyppi
+	 * @param button  Painettu nappi
 	 */
 	public BoardClickEvent(Object source, int button)
 	{
@@ -51,13 +52,23 @@ public class BoardClickEvent extends UserEvent
 	 * @param source  Tapahtuman aiheuttanut objekti
 	 * @param x  Tapahtuman vaakasuuntainen koordinaatti
 	 * @param y  Tapahtuman pystysuuntainen koordinaatti
-	 * @param type  Viestin tyyppi
+	 * @param button  Painettu nappi
 	 */
 	public BoardClickEvent(Object source, int x, int y, int button)
 	{
 		this(source, x, y, button, 0, 0);
 	}
 
+	/**
+	 * BoardClick-luokan konstruktori.
+	 *
+	 * @param source  Tapahtuman aiheuttanut objekti
+	 * @param x  Tapahtuman vaakasuuntainen koordinaatti
+	 * @param y  Tapahtuman pystysuuntainen koordinaatti
+	 * @param dx  Vaakasuuntaisen koordinaatin desimaaliosa
+	 * @param dy  Pystysuuntaisen koordinaatin desimaaliosa
+	 * @param button  Painettu nappi
+	 */
 	public BoardClickEvent(Object source, int x, int y,
 		double dx, double dy, int button)
 	{

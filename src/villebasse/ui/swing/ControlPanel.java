@@ -6,12 +6,17 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
 /**
+ * Pääikkunaan piirrettävä ohjauslauta, joka kertoo pelin tilasta
+ * ja voi tarjota painikkeita käyttäjän paineltavaksi.
  */
 public class ControlPanel extends JPanelUserEventSource
 	implements ActionListener
 {
 	private JTextArea textArea;
 
+	/**
+	 * Konstruktori.
+	 */
 	public ControlPanel()
 	{
 		this.setLayout(new BorderLayout());
@@ -29,11 +34,17 @@ public class ControlPanel extends JPanelUserEventSource
 		this.add(b, BorderLayout.EAST);
 	}
 
+	/**
+	 * Lisää tekstiä.
+	 *
+	 * @param text  Lisättävä teksti
+	 */
 	public void putText(String text)
 	{
 		this.textArea.append(text);
 	}
 
+	/* ActionListener */
 	public void actionPerformed(ActionEvent ae)
 	{
 		this.dispatchEvent(new UserEvent(this, "replace piece"));

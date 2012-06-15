@@ -17,7 +17,6 @@ import villebasse.gamelogic.*;
  * Kätkee sisäänsä palan (Piece) ja palaa vastaavan kuvan ja tarjoaa
  * rajapinnan niiden yhdessä käsittelyyn.
  */
-
 public class GUIPiece extends JPanel
 {
 	private static PieceToImageMapper mapper = new NullMapper();
@@ -70,15 +69,14 @@ public class GUIPiece extends JPanel
 		this.image = this.mapper.map(piece);
 		this.piece = piece;
 		this.rotateable = rotateable;
-		//this.addMouseListener(this);
 
 		setImageRotation();
 	}
 
 	/**
-	 * Image-instanssimuuttujan getter-metodi
+	 * Palan käyttämä kuva.
 	 *
-	 * @return Instanssin image-muuttuja
+	 * @return Kuva
 	 */
 	public BufferedImage getImage()
 	{
@@ -86,9 +84,9 @@ public class GUIPiece extends JPanel
 	}
 
 	/**
-	 * Rotation-instanssimuuttujan getter-metodi
+	 * Palan asento.
 	 *
-	 * @return Instanssin rotation-muuttuja
+	 * @return Palan asento
 	 */
 	public AffineTransform getTransform()
 	{
@@ -116,14 +114,6 @@ public class GUIPiece extends JPanel
 		} else {
 			graphics.drawRect(1, 1, size - 2, size - 2);
 		}
-	}
-
-	private Shape meepleShape(Meeple m, int size)
-	{
-		double r = size * 0.1;
-		double x = m.getX() * size;
-		double y = m.getY() * size;
-		return new Ellipse2D.Double(x - r , y - r, 2 * r, 2 * r);
 	}
 
 	/**
@@ -162,6 +152,14 @@ public class GUIPiece extends JPanel
 		at.translate(-size / 2, -size / 2);
 		at.scale(size / w, size / h);
 		return at;
+	}
+
+	private Shape meepleShape(Meeple m, int size)
+	{
+		double r = size * 0.1;
+		double x = m.getX() * size;
+		double y = m.getY() * size;
+		return new Ellipse2D.Double(x - r , y - r, 2 * r, 2 * r);
 	}
 
 	private void setImageRotation()

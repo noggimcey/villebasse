@@ -16,13 +16,11 @@ import villebasse.gamelogic.*;
  * Annetuista kuvista arvotaan palalle sen luokkaa vastaava kuva. Jos palalle
  * on jo kertaalleen arvottu kuva, annetaan joka kerta sama kuva.
  */
-
 public abstract class PieceToImageMapper
 {
 	protected String baseDirectory, prefix, postfix;
 	protected HashMap<Class, Vector<BufferedImage>> images = new HashMap(16);
 	protected HashMap<Piece, BufferedImage> cache = new HashMap(72);
-
 
 	/**
 	 * Hae palaa vastaava kuva.
@@ -46,7 +44,6 @@ public abstract class PieceToImageMapper
 
 		return image;
 	}
-
 
 	/**
 	 * Lisää kuvia mahdollisten kuvien joukkoon.

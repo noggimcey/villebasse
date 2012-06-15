@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 /**
  * Graafinen käyttöliittymä.
  */
-
 public class UISwing extends JFrame
 	implements UI, GameStateEventListener, UserEventListener
 {
@@ -128,10 +127,9 @@ public class UISwing extends JFrame
 	/* UserEventListener */
 	public void userEventOccurred(UserEvent ue)
 	{
-		if (ue.command.equals("replace piece")) {
-			this.engine.replaceCurrentPiece();
-			this.boardPanel.setNextPiece(this.engine.getCurrentPiece());
-		}
+		if (ue.command.equals("replace piece"))
+			if (this.engine.replaceCurrentPiece())
+				this.boardPanel.setNextPiece(this.engine.getCurrentPiece());
 	}
 
 

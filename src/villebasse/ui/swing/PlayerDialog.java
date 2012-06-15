@@ -6,14 +6,20 @@ import javax.swing.*;
 import javax.swing.event.*;
 import villebasse.gamelogic.Player;
 
-
+/**
+ * Dialogi pelajien luomiseksi.
+ */
 public class PlayerDialog extends JDialog
 	implements ActionListener
 {
 	private PlayerPanel playerPanel;
 	private Controls controls;
 
-
+	/**
+	 * Uusi dialogi.
+	 *
+	 * @param owner  Dialogin omistaja
+	 */
 	public PlayerDialog(Frame owner)
 	{
 		super(owner, "Add players...", true);
@@ -29,16 +35,27 @@ public class PlayerDialog extends JDialog
 		this.setVisible(true);
 	}
 
+	/**
+	 * Lisää pelaaja.
+	 *
+	 * @return Onnistuiko lisäys
+	 */
 	public boolean addPlayer()
 	{
 		return this.playerPanel.addPlayer();
 	}
 
+	/**
+	 * Lista pelaajista.
+	 *
+	 * @return Lista pelaajista
+	 */
 	public Player[] players()
 	{
 		return this.playerPanel.players();
 	}
 
+	/* ActionListener */
 	public void actionPerformed(ActionEvent e)
 	{
 		String cmd = e.getActionCommand();
@@ -54,6 +71,13 @@ public class PlayerDialog extends JDialog
 	}
 
 
+	/**
+	 * Näytä dialogi ja palauta lista annetuista pelaajista.
+	 *
+	 * @param owner  Dialogin omistaja
+	 * @param title  Dialogin otsikkoteksti
+	 * @return Lista pelaajista
+	 */
 	public static Player[] showDialog(Frame owner, String title)
 	{
 		PlayerDialog dialog = new PlayerDialog(owner);
@@ -61,11 +85,9 @@ public class PlayerDialog extends JDialog
 	}
 
 
-	private void done()
-	{
-	}
-
-
+	/**
+	 * Värivalitsin ja -näytin.
+	 */
 	private class ColorSelector extends JPanel
 		implements MouseListener
 	{
@@ -124,7 +146,9 @@ public class PlayerDialog extends JDialog
 		}
 	}
 
-
+	/**
+	 * Napit kenttien käsittelemiseksi.
+	 */
 	private class Controls extends JPanel
 	{
 		public Controls()
@@ -147,7 +171,9 @@ public class PlayerDialog extends JDialog
 		}
 	}
 
-
+	/**
+	 * Pelaajaa vastaava kenttä.
+	 */
 	private class PlayerEntry extends JPanel
 	{
 		private ColorSelector colorSelector;
@@ -169,7 +195,9 @@ public class PlayerDialog extends JDialog
 		}
 	}
 
-
+	/**
+	 * Pelaajat.
+	 */
 	private class PlayerPanel extends JPanel
 	{
 		public PlayerPanel()

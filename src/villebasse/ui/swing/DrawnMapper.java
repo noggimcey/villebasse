@@ -1,6 +1,8 @@
 package villebasse.ui.swing;
 
-
+/**
+ * PieceToImageMapper oma piirtämille paloille.
+ */
 public class DrawnMapper extends PieceToImageMapper
 {
 	public DrawnMapper() throws Exception

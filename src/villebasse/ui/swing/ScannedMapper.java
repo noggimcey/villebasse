@@ -1,6 +1,10 @@
 package villebasse.ui.swing;
 
-
+/**
+ * PieceToImageMapper alkuperäisille, skannatuille kuville.
+ *
+ * Kuvat jätetty pois tekijänoikeussyistä.
+ */
 public class ScannedMapper extends PieceToImageMapper
 {
 	public ScannedMapper() throws Exception
