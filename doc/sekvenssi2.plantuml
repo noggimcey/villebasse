@@ -8,7 +8,7 @@ hide footbox
 
 participant "main:VilleBasse" as main
 participant "ui:UISwing" as ui
-participant "mainwin:MainWindow" as mainwin
+participant "engine:VilleBasseEngine" as vbe
 participant "borderPanel:BorderPanel" as bp
 participant "controlPanel:ControlPanel" as cp
 
@@ -17,30 +17,35 @@ activate main
 main -> ui: initialize(args)
 main -> ui: run()
 activate ui
-
-ui -> mainwin: new MainWindow()
-deactivate ui
 deactivate main
-activate mainwin
-mainwin -> cp: new ControlPanel()
-activate cp
-mainwin -> bp: new BorderPanel()
+
+ui -> vbe: new VilleBasseEngine()
+activate vbe
+ui -> vbe: addGameStateEngineListener(this)
+ui -> vbe: getBoard()
+ui <- vbe: board:Board
+
+ui -> bp: new BoardPanel(board)
 activate bp
+ui -> bp: addUserEventListener(this)
+ui -> cp: new ControlPanel()
+activate cp
+ui -> cp: addUserEventListener(this)
+
+ui -> vbe: addPlayers()
+ui -> vbe: startGame()
 
 == Toista ==
-mainwin -> bp: laita pala
-deactivate bp
-mainwin -> bp: new BorderPanel()
-activate bp
-mainwin -> bp: laita pala
-deactivate bp
-mainwin -> bp: new BorderPanel()
-activate bp
+ui <- vbe: gse:GameStateEvent
+ui -> bp: setUserEventListener()
+ui <- bp: ue:UserEvent
+ui -> vbe: tapahtumaan liittyvä toiminto
 
 == kunnes pakka tyhjä ==
-mainwin -> mainwin: pakka loppu
+ui <- vbe: pakka tyhjä
+deactivate vbe
 deactivate bp
 deactivate cp
-deactivate mainwin
+deactivate ui
 
 @enduml
