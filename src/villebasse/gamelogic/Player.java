@@ -39,6 +39,11 @@ public class Player
 		this.meeplesLeft = meeplesLeft;
 	}
 
+	public int addPoints(int points)
+	{
+		return (this.points += points);
+	}
+
 	/**
 	 * Pelaajan väri.
 	 *
@@ -91,8 +96,7 @@ public class Player
 		if (meeple == null || meeple.getPlayer() != this)
 			return false;
 
-		this.meeplesLeft++;
-		this.points += points;
+		this.addPoints(points);
 		return true;
 	}
 

@@ -28,6 +28,7 @@ public class VilleBasseEngine
 	private Player curPlayer;
 	private Vector<Piece> piecesOnBoard;
 	private Vector<Player> players;
+	private Vector<GameStateEventListener> listeners;
 
 
 	/**
@@ -54,10 +55,17 @@ public class VilleBasseEngine
 		}
 
 		this.deck = deck;
+		this.listeners = new Vector<GameStateEventListener>(2);
 		this.piecesOnBoard = new Vector<Piece>(deck.size());
 		this.players = new Vector<Player>(6);
 		this.state = EngineState.INITIALIZATION;
 		this.turn = 0;
+	}
+
+	public void addGameStateEventListener(GameStateEventListener gsl)
+	{
+		if (gsl != null)
+			this.listeners.add(gsl);
 	}
 
 	/**
@@ -90,6 +98,20 @@ public class VilleBasseEngine
 		return true;
 	}
 
+	public boolean addPoint(int points)
+	{
+		return this.addPoints(this.curPlayer, points);
+	}
+
+	public boolean addPoints(Player player, int points)
+	{
+		if (player == null)
+			return false;
+
+		player.addPoints(points);
+		return true;
+	}
+
 	/**
 	 * Moottorin käyttämä lauta.
 	 *
@@ -118,6 +140,11 @@ public class VilleBasseEngine
 	public Piece getCurrentPiece()
 	{
 		return this.curPiece;
+	}
+
+	public Player getCurrentPlayer()
+	{
+		return this.curPlayer;
 	}
 
 	/**
@@ -159,17 +186,28 @@ public class VilleBasseEngine
 	 */
 	public boolean nextTurn()
 	{
-		//if (this.state != INGAME)
-		if (this.turn > 0 && this.state.ordinal() <= EngineState.INGAME_PUT_PIECE.ordinal())
+		if (this.turn > 0 &&
+				this.state.ordinal() <= EngineState.INGAME_PUT_PIECE.ordinal())
 			return false;
 
-		if (!this.draw())
+		if (!this.draw()) {
+			this.stateGameEnd();
 			return false;
+		}
 
 		this.curPlayer = this.players.get(this.turn % this.players.size());
 		this.turn++;
-		this.state = EngineState.INGAME_PUT_PIECE;
+		this.stateTurnStart();
 
+		return true;
+	}
+
+	public boolean placeMeeple()
+	{
+		if (this.state != EngineState.INGAME_PLACE_MEEPLE || this.curPiece == null)
+			return false;
+
+		this.stateRemoveMeeples();
 		return true;
 	}
 
@@ -190,9 +228,17 @@ public class VilleBasseEngine
 			return false;
 
 		this.curPiece.placeMeeple(x, y, m);
-		this.state = EngineState.INGAME_PROFIT;
+		this.stateRemoveMeeples();
 
 		return true;
+	}
+
+	public boolean placeMeeple(int pieceX, int pieceY,
+		double meepleX, double meepleY)
+	{
+		if (this.board.getPieceRelative(pieceX, pieceY) != this.curPiece)
+			return false;
+		return this.placeMeeple(meepleX, meepleY);
 	}
 
 	/**
@@ -215,7 +261,7 @@ public class VilleBasseEngine
 		}
 
 		this.piecesOnBoard.add(this.curPiece);
-		this.state = EngineState.INGAME_PLACE_MEEPLE;
+		this.statePlaceMeeple();
 
 		return true;
 	}
@@ -223,22 +269,48 @@ public class VilleBasseEngine
 	/**
 	 * Montako laattaa pakassa on jäljellä.
 	 *
-	 * @return Jäljellä olevien laattojen lukumäärä.
+	 * @return Jäljellä olevien laattojen lukumäärä
 	 */
 	public int piecesLeft()
 	{
 		return this.deck.size();
 	}
 
+	public void removeGameStateEventListener(GameStateEventListener gsl)
+	{
+		if (gsl != null)
+			this.listeners.remove(gsl);
+	}
+
 	/**
-	 * Montako laattaa pakassa on jäljellä.
+	 * Poista nappula laudalta.
 	 *
-	 * @return Jäljellä olevien laattojen lukumäärä.
+	 * @param pieceX  Palan suhteellinen vaakasuuntainen koordinaatti
+	 * @param pieceY  Palan suhteellinen pystysuuntainen koordinaatti
+	 *
+	 * @return Onnistuiko nappulan poistaminen
+	 */
+	public boolean removeMeeple(int pieceX, int pieceY)
+	{
+		return this.removeMeeple(pieceX, pieceY, 0);
+	}
+
+	/**
+	 * Poista nappula laudalta ja lisää pisteitä nappulan omistajalle.
+	 *
+	 * @param pieceX  Palan suhteellinen vaakasuuntainen koordinaatti
+	 * @param pieceY  Palan suhteellinen pystysuuntainen koordinaatti
+	 * @param points  Lisättävä pistemäärä (voi olla negatiivinen)
+	 *
+	 * @return Onnistuiko nappulan poistaminen
 	 */
 	public boolean removeMeeple(int pieceX, int pieceY, int points)
 	{
 		if (this.state.ordinal() < EngineState.INGAME_PLACE_MEEPLE.ordinal())
 			return false;
+
+		if (this.state != EngineState.INGAME_PROFIT)
+			this.stateRemoveMeeples();
 
 		Piece piece = this.board.getPieceRelative(pieceX, pieceY);
 		if (piece == null)
@@ -270,6 +342,12 @@ public class VilleBasseEngine
 		return true;
 	}
 
+	public void setGameStateEventListener(GameStateEventListener gsl)
+	{
+		this.listeners.removeAllElements();
+		this.addGameStateEventListener(gsl);
+	}
+
 	/**
 	 * Aloita peli.
 	 *
@@ -280,7 +358,7 @@ public class VilleBasseEngine
 		if (this.state != EngineState.INITIALIZATION || this.players.size() == 0)
 			return false;
 
-		this.state = EngineState.INGAME;
+		this.stateGameStart();
 		this.nextTurn();
 		return true;
 	}
@@ -298,5 +376,69 @@ public class VilleBasseEngine
 			return false;
 		}
 		return true;
+	}
+
+	private void stateGameEnd()
+	{
+		this.state = EngineState.DECKEMPTY;
+
+		if (this.listeners.size() > 0) {
+			GameStateEvent gse = new GameStateEvent(this);
+			for (GameStateEventListener gsel : this.listeners)
+				gsel.gameStateGameEnd(gse);
+		}
+	}
+
+	private void stateGameStart()
+	{
+		this.state = EngineState.INGAME;
+
+		if (this.listeners.size() > 0) {
+			GameStateEvent gse = new GameStateEvent(this);
+			for (GameStateEventListener gsel : this.listeners)
+				gsel.gameStateGameStart(gse);
+		}
+	}
+
+	private void statePlaceMeeple()
+	{
+		this.state = EngineState.INGAME_PLACE_MEEPLE;
+
+		if (this.listeners.size() > 0) {
+			GameStateEvent gse = new GameStateEvent(this);
+			for (GameStateEventListener gsel : this.listeners)
+				gsel.gameStatePlaceMeeple(gse);
+		}
+	}
+
+	private void stateRemoveMeeples()
+	{
+		this.state = EngineState.INGAME_PROFIT;
+
+		if (this.listeners.size() > 0) {
+			GameStateEvent gse = new GameStateEvent(this);
+			for (GameStateEventListener gsel : this.listeners)
+				gsel.gameStateRemoveMeeples(gse);
+		}
+	}
+
+	private void stateRoundStart()
+	{
+		if (this.listeners.size() > 0) {
+			GameStateEvent gse = new GameStateEvent(this);
+			for (GameStateEventListener gsel : this.listeners)
+				gsel.gameStateRoundStart(gse);
+		}
+	}
+
+	private void stateTurnStart()
+	{
+		this.state = EngineState.INGAME_PUT_PIECE;
+
+		if (this.listeners.size() > 0) {
+			GameStateEvent gse = new GameStateEvent(this);
+			for (GameStateEventListener gsel : this.listeners)
+				gsel.gameStateTurnStart(gse);
+		}
 	}
 }
