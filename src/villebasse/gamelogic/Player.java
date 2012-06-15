@@ -4,9 +4,7 @@ import java.awt.Color;
 
 /**
  * Peliin osallistuva pelaaja.
- *
  */
-
 public class Player
 {
 	private Color color;
@@ -39,6 +37,12 @@ public class Player
 		this.meeplesLeft = meeplesLeft;
 	}
 
+	/**
+	 * Lisää pelaajalle pisteitä.
+	 *
+	 * @param points  Lisättävä pistemäärä
+	 * @return Pelaajan pistemäärä lisäyksen jälkeen
+	 */
 	public int addPoints(int points)
 	{
 		return (this.points += points);

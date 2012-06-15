@@ -12,7 +12,6 @@ public abstract class Deck
 {
 	protected Vector<Piece> pieces;
 
-
 	/**
 	 * Vetää pakasta seuraavan palan.
 	 *
@@ -73,6 +72,13 @@ public abstract class Deck
 		return this.pieces.size();
 	}
 
+	/**
+	 * Lisää paloja palan luokan nimen perusteella.
+	 *
+	 * @param name  Lisättävän palan luokan nimi
+	 * @param amount  Montako kappaletta lisätään
+	 * @return Onnistuiko palojen lisääminen
+	 */
 	protected boolean addPiecesByName(String name, int amount)
 	{
 		try {
@@ -83,6 +89,7 @@ public abstract class Deck
 		}
 		return false;
 	}
+
 
 	private void FisherYatesShuffle(Vector v)
 	{

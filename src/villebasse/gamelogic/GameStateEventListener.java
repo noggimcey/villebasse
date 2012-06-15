@@ -2,6 +2,9 @@ package villebasse.gamelogic;
 
 import java.util.EventListener;
 
+/**
+ * Rajapinta pelin tilan muutosten vastaanottamiseksi.
+ */
 public interface GameStateEventListener
 {
 	public void gameStateGameEnd(GameStateEvent gse);
@@ -10,11 +13,5 @@ public interface GameStateEventListener
 	public void gameStateRemoveMeeples(GameStateEvent gse);
 	public void gameStateRoundStart(GameStateEvent gse);
 	public void gameStateTurnStart(GameStateEvent gse);
-
-	/*
-	public void GameState(GameStateEvent gse);
-	public void GameState(GameStateEvent gse);
-	public void GameState(GameStateEvent gse);
-	*/
 }
 

@@ -3,7 +3,11 @@ package villebasse.gamelogic;
 import java.util.Vector;
 import villebasse.gamelogic.defaultpieces.*;
 
-
+/**
+ * Luostariton pakka.
+ *
+ * Oletuspakan muunnelma.
+ */
 public class DefaultDeckWithoutCloisters extends Deck
 {
 	public DefaultDeckWithoutCloisters()

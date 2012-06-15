@@ -271,6 +271,9 @@ public class Board
 		return this.pieces.put(point, piece);
 	}
 
+	/**
+	 * Kaksiulotteinen piste (x,y).
+	 */
 	private class MyPoint extends Point
 	{
 		public MyPoint(MyPoint mp)

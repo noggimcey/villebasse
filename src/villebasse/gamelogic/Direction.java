@@ -87,9 +87,9 @@ public class Direction implements Iterable<Direction>
 	}
 
 	/**
-	 * TODO
+	 * Moduloi suuntaa toisella suunnalla.
 	 *
-	 * @param direction
+	 * @param direction  Modulaattori
 	 * @return Moduloitu suunta
 	 */
 	public Direction modulate(Direction direction)
@@ -128,7 +128,7 @@ public class Direction implements Iterable<Direction>
 	/**
 	 * Seuraava suunta vastapäivään.
 	 *
-	 * @return Edellinen suunta
+	 * @return Seuraava suunta vastapäivään
 	 */
 	public Direction prev()
 	{
@@ -189,6 +189,9 @@ public class Direction implements Iterable<Direction>
 	}
 
 
+	/**
+	 * Suuntaiteraattori.
+	 */
 	public class DirectionIterator implements Iterator
 	{
 		private Direction start;
@@ -200,12 +203,10 @@ public class Direction implements Iterable<Direction>
 			this.start = this.next = start;
 		}
 
-
 		public boolean hasNext()
 		{
 			return this.next != null;
 		}
-
 
 		public Direction next()
 		{
@@ -217,7 +218,6 @@ public class Direction implements Iterable<Direction>
 
 			return cur;
 		}
-
 
 		public void remove() {}
 	}

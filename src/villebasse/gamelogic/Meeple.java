@@ -4,9 +4,7 @@ import java.awt.Color;
 
 /**
  * Laudalle asettettava pelinappula.
- *
  */
-
 public class Meeple
 {
 	public static double epsilon = 0.2;
@@ -35,9 +33,9 @@ public class Meeple
 	}
 
 	/**
-	 * Instanssin player-muuttujan getteri.
+	 * Pelaaja, jolle nappula kuuluu.
 	 *
-	 * @return Instanssin player-muuttujan arvo
+	 * @return Pelaaja, jolle nappula kuuluu
 	 */
 	public Player getPlayer()
 	{

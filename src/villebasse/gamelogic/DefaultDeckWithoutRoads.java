@@ -3,7 +3,11 @@ package villebasse.gamelogic;
 import java.util.Vector;
 import villebasse.gamelogic.defaultpieces.*;
 
-
+/**
+ * Tietön pakka.
+ *
+ * Oletuspakan muunnelma.
+ */
 public class DefaultDeckWithoutRoads extends Deck
 {
 	public DefaultDeckWithoutRoads()

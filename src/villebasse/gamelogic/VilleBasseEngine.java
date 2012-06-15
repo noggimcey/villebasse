@@ -6,9 +6,7 @@ import villebasse.gamelogic.defaultpieces.*;
 
 /**
  * Pelimoottori.
- *
  */
-
 public class VilleBasseEngine
 {
 	public static enum EngineState {
@@ -62,6 +60,11 @@ public class VilleBasseEngine
 		this.turn = 0;
 	}
 
+	/**
+	 * Lisää pelin tilan muutosten kuuntelija.
+	 *
+	 * @param gsl  Kuuntelija
+	 */
 	public void addGameStateEventListener(GameStateEventListener gsl)
 	{
 		if (gsl != null)
@@ -98,17 +101,18 @@ public class VilleBasseEngine
 		return true;
 	}
 
+	/**
+	 * Lisää pisteitä vuorossa olevalle pelaajalle.
+	 *
+	 * @param points  Lisättävä pistemäärä
+	 * @return Onnistuiko lisäys
+	 */
 	public boolean addPoint(int points)
 	{
-		return this.addPoints(this.curPlayer, points);
-	}
-
-	public boolean addPoints(Player player, int points)
-	{
-		if (player == null)
+		if (this.curPlayer == null)
 			return false;
 
-		player.addPoints(points);
+		this.curPlayer.addPoints(points);
 		return true;
 	}
 
@@ -142,6 +146,11 @@ public class VilleBasseEngine
 		return this.curPiece;
 	}
 
+	/**
+	 * Vuorossa oleva pelaaja.
+	 *
+	 * @return Vuorossa oleva pelaaja
+	 */
 	public Player getCurrentPlayer()
 	{
 		return this.curPlayer;
@@ -207,6 +216,11 @@ public class VilleBasseEngine
 		return true;
 	}
 
+	/**
+	 * Älä aseta palaa, mutta siirry vuorossa eteenpäin.
+	 *
+	 * @return Onnistuiko siirtyminen
+	 */
 	public boolean placeMeeple()
 	{
 		if (this.state != EngineState.INGAME_PLACE_MEEPLE || this.curPiece == null)
@@ -238,6 +252,16 @@ public class VilleBasseEngine
 		return true;
 	}
 
+	/**
+	 * Aseta vuorossa olevan pelaajan nappula annetuissa koordinaateissa
+	 * olevalle laatalle.
+	 *
+	 * @param pieceX  Palan suhteellinen vaakasuuntainen koordinaatti
+	 * @param pieceY  Palan suhteellinen pystysuuntainen koordinaatti
+	 * @param meepleX  Nappulan vaakasuuntainen koordinaatti (0..1)
+	 * @param meepleY  Nappulan pystysuuntainen koordinaatti (0..1)
+	 * @return Onnistuiko asettaminen
+	 */
 	public boolean placeMeeple(int pieceX, int pieceY,
 		double meepleX, double meepleY)
 	{
@@ -249,8 +273,8 @@ public class VilleBasseEngine
 	/**
 	 * Aseta viimeksi nostettu laatta pelilaudalle.
 	 *
-	 * @param x  Vaakasuuntainen koordinaatti
-	 * @param y  Pystysuuntainen koordinaatti
+	 * @param x  Suhteellinen vaakasuuntainen koordinaatti
+	 * @param y  Suhteellinen pystysuuntainen koordinaatti
 	 * @return Onnistuiko asettaminen
 	 */
 	public boolean putPiece(int x, int y)
@@ -281,6 +305,11 @@ public class VilleBasseEngine
 		return this.deck.size();
 	}
 
+	/**
+	 * Poista pelin tilan muutosten kuuntelija.
+	 *
+	 * @param gsl  Kuuntelija
+	 */
 	public void removeGameStateEventListener(GameStateEventListener gsl)
 	{
 		if (gsl != null)
@@ -347,6 +376,11 @@ public class VilleBasseEngine
 		return true;
 	}
 
+	/**
+	 * Aseta pelin tilan muutosten kuuntelija.
+	 *
+	 * @param gsl  Kuuntelija
+	 */
 	public void setGameStateEventListener(GameStateEventListener gsl)
 	{
 		this.listeners.removeAllElements();

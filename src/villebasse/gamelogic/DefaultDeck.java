@@ -6,7 +6,6 @@ import villebasse.gamelogic.defaultpieces.*;
 /**
  * Oletuspakka alkuperäisillä laatoilla ja laattamäärillä.
  */
-
 public class DefaultDeck extends Deck
 {
 	public DefaultDeck()
