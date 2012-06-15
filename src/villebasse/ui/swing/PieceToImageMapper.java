@@ -26,7 +26,6 @@ public abstract class PieceToImageMapper
 	 * Hae palaa vastaava kuva.
 	 *
 	 * @param piece  Pala, jolle kuva haetaan
-	 *
 	 * @return Kuvaa vastaava pala tai 'null', jos sopivaa kuvaa ei löydy
 	 */
 	public BufferedImage map(Piece piece)
@@ -50,7 +49,6 @@ public abstract class PieceToImageMapper
 	 *
 	 * @param pieceType  Luokka, johon kuvat liittyvät
 	 * @param files  Lisättävät tiedostot
-	 *
 	 * @return Lisättiin yhtään kuvaa
 	 */
 	protected boolean addImages(String pieceType, String[] files)
@@ -81,7 +79,6 @@ public abstract class PieceToImageMapper
 	 * Tarkasta, onko palalle jo kertaalleen arvottu kuva.
 	 *
 	 * @param piece  Pala, jolle kuva haetaan
-	 *
 	 * @return Aiemmin arvottu kuva tai 'null'
 	 */
 	protected BufferedImage checkCache(Piece piece)
@@ -95,7 +92,6 @@ public abstract class PieceToImageMapper
 	 * Kasaa tiedostonimi annetuista pätkistä.
 	 *
 	 * @param name  Nimen vaihtuva osa
-	 *
 	 * @return Koko tiedostonimi
 	 */
 	protected String fullname(String name)
@@ -108,7 +104,6 @@ public abstract class PieceToImageMapper
 	 * Avaa tiedosto ja lue kuvaksi.
 	 *
 	 * @param filename  Avattavan tiedoston nimen vaihtuva osa
-	 *
 	 * @return Tiedosto kuvana
 	 */
 	protected BufferedImage openImage(String filename) throws IOException
@@ -131,7 +126,6 @@ public abstract class PieceToImageMapper
 	 * Avaa lista tiedostoja kuviksi.
 	 *
 	 * @param filenames  Lista avattavia tiedostoja
-	 *
 	 * @return Lista avattuja kuvia
 	 */
 	protected Vector<BufferedImage> openImages(String[] filenames)
@@ -146,10 +140,9 @@ public abstract class PieceToImageMapper
 	}
 
 	/**
-	 * Arvo annetun luokan nimeä vastaa kuva
+	 * Arvo annetua luokaa vastaa kuva
 	 *
-	 * @param name  Luokan nimi
-	 *
+	 * @param pieceClass  Luokka
 	 * @return Satunnainen kuva tai 'null'
 	 */
 	protected BufferedImage randomImage(Class pieceClass)
