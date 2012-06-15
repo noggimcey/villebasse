@@ -154,9 +154,12 @@ public class VilleBasseEngine
 	 */
 	public int getRoundNumber()
 	{
-		if (this.turn == 0)
-			return 0;
-		return (this.turn - 1) / this.players.size() + 1;
+		return this.turn / this.players.size() + 1;
+	}
+
+	public Vector<Player> getPlayers()
+	{
+		return this.players;
 	}
 
 	/**
@@ -190,12 +193,14 @@ public class VilleBasseEngine
 				this.state.ordinal() <= EngineState.INGAME_PUT_PIECE.ordinal())
 			return false;
 
-		if (!this.draw()) {
-			this.stateGameEnd();
+		if (!this.draw())
 			return false;
-		}
 
-		this.curPlayer = this.players.get(this.turn % this.players.size());
+		int i = this.turn % this.players.size();
+		if (i == 0)
+			this.stateRoundStart();
+
+		this.curPlayer = this.players.get(i);
 		this.turn++;
 		this.stateTurnStart();
 
@@ -370,8 +375,7 @@ public class VilleBasseEngine
 			this.curPiece = this.deck.draw();
 		} catch (Exception e) {
 			// deck empty
-			System.err.println(e);
-			this.state = EngineState.DECKEMPTY;
+			this.stateGameEnd();
 			this.curPiece = null;
 			return false;
 		}

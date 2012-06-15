@@ -96,6 +96,7 @@ public class Player
 		if (meeple == null || meeple.getPlayer() != this)
 			return false;
 
+		this.meeplesLeft++;
 		this.addPoints(points);
 		return true;
 	}
