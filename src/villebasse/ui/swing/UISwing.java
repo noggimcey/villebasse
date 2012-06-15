@@ -65,10 +65,10 @@ public class UISwing extends JFrame
 		this.engine.startGame();
 	}
 
-
+	/* GameStateEventListener */
 	public void gameStateGameEnd(GameStateEvent gse)
 	{
-		this.updatePiece(null);
+		this.boardPanel.setNextPiece(null);
 		this.boardPanel.setUserEventListener(null);
 
 		this.controlPanel.putText("\nGame ended.\n");
@@ -98,7 +98,7 @@ public class UISwing extends JFrame
 			"Place a meeple with button 1 or skip this phase with button 2.\n"
 		);
 
-		this.updatePiece(null);
+		this.boardPanel.setNextPiece(null);
 		this.boardPanel.setUserEventListener(new PlaceMeepleListener());
 	}
 
@@ -108,13 +108,13 @@ public class UISwing extends JFrame
 			"Remove meeples with button 1 and continue to next turn with button 2.\n"
 		);
 
-		this.updatePiece(null);
+		this.boardPanel.setNextPiece(null);
 		this.boardPanel.setUserEventListener(new RemoveMeeplesListener());
 	}
 
 	public void gameStateTurnStart(GameStateEvent gse)
 	{
-		this.updatePiece(this.engine.getCurrentPiece());
+		this.boardPanel.setNextPiece(this.engine.getCurrentPiece());
 
 		Player p = this.engine.getCurrentPlayer();
 		this.controlPanel.putText("\n" +
@@ -125,19 +125,17 @@ public class UISwing extends JFrame
 		this.boardPanel.setUserEventListener(new PutPieceListener());
 	}
 
-	public void userEventOccurred(UserEvent ue) {}
-
-
-	private void updatePiece(Piece p)
+	/* UserEventListener */
+	public void userEventOccurred(UserEvent ue)
 	{
-		if (p == null)
-			this.boardPanel.setNextPiece(null);
-		else
-			this.boardPanel.setNextPiece(new GUIPiece(p, true));
-		this.boardPanel.update();
+		if (ue.command.equals("replace piece")) {
+			this.engine.replaceCurrentPiece();
+			this.boardPanel.setNextPiece(this.engine.getCurrentPiece());
+		}
 	}
 
 
+	/* BoardClickEventListeners */
 	private class PutPieceListener
 		implements BoardClickEventListener
 	{

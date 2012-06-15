@@ -10,7 +10,11 @@ import javax.swing.event.*;
 import villebasse.gamelogic.*;
 import villebasse.gamelogic.defaultpieces.*;
 
-
+/**
+ * Piirtää pelilaudan ja seuraa hiiren tapahtumia.
+ *
+ * Toimittaa laudalla tapahtuvat painallukset niitä kuunteleville.
+ */
 public class BoardPanel extends JPanelUserEventSource
 	implements MouseListener, ComponentListener, MouseMotionListener
 {
@@ -19,6 +23,11 @@ public class BoardPanel extends JPanelUserEventSource
 	private int mouseX, mouseY;
 	private boolean mouseIn = false;
 
+	/**
+	 * Konstruktori.
+	 *
+	 * @param board  Lauta, jota halutaan piirrettävän
+	 */
 	public BoardPanel(Board board)
 	{
 		this.boardGrid = new BoardGrid(board);
@@ -31,6 +40,9 @@ public class BoardPanel extends JPanelUserEventSource
 		this.update();
 	}
 
+	/**
+	 * Päivitä lauta.
+	 */
 	public void update()
 	{
 		this.boardGrid.update();
@@ -104,19 +116,11 @@ public class BoardPanel extends JPanelUserEventSource
 		);
 	}
 
-	private void pad()
-	{
-		Dimension cs = this.getSize();
-		Dimension bs = this.boardGrid.getPreferredSize(cs);
-
-		int vert = cs.height - bs.height;
-		int horz = cs.width - bs.width;
-
-		this.setBorder(
-			new EmptyBorder(vert / 2, horz / 2, (vert + 1) / 2, (horz + 1) / 2)
-		);
-	}
-
+	/**
+	 * Piirrä komponentti.
+	 *
+	 * @param g  Alusta, jolle komponentti piirretään
+	 */
 	public void paint(Graphics g)
 	{
 		super.paint(g);
@@ -132,14 +136,37 @@ public class BoardPanel extends JPanelUserEventSource
 		this.nextPiece.paint(g);
 	}
 
-	public GUIPiece setNextPiece(GUIPiece piece)
+	/**
+	 * Aseta seuraavaksi asetettava pala.
+	 *
+	 * @param piece  Pala
+	 */
+	public void setNextPiece(Piece piece)
 	{
-		GUIPiece oldPiece = this.nextPiece;
-		this.nextPiece = piece;
-		return oldPiece;
+		GUIPiece guip = null;
+		if (piece != null)
+			guip = new GUIPiece(piece, true);
+
+		this.nextPiece = guip;
+		this.update();
 	}
 
+	private void pad()
+	{
+		Dimension cs = this.getSize();
+		Dimension bs = this.boardGrid.getPreferredSize(cs);
 
+		int vert = cs.height - bs.height;
+		int horz = cs.width - bs.width;
+
+		this.setBorder(
+			new EmptyBorder(vert / 2, horz / 2, (vert + 1) / 2, (horz + 1) / 2)
+		);
+	}
+
+	/**
+	 * Todellinen laudan piirtäjä.
+	 */
 	private class BoardGrid extends JPanel
 	{
 		public int height, width;
