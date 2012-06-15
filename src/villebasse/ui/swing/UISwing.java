@@ -57,6 +57,8 @@ public class UISwing extends JFrame
 	{
 		this.setVisible(true);
 
+		this.controlPanel.putText("Add players...");
+
 		for (Player p : PlayerDialog.showDialog(this, "Add Players..."))
 			this.engine.addPlayer(p);
 
@@ -64,26 +66,62 @@ public class UISwing extends JFrame
 	}
 
 
-	public void gameStateGameEnd(GameStateEvent gse) {}
-	public void gameStateGameStart(GameStateEvent gse) {}
-	public void gameStateRoundStart(GameStateEvent gse) {}
+	public void gameStateGameEnd(GameStateEvent gse)
+	{
+		this.updatePiece(null);
+		this.boardPanel.setUserEventListener(null);
+
+		this.controlPanel.putText("\nGame ended.\n");
+		for (Player p : this.engine.getPlayers())
+			this.controlPanel.putText(p.getName() + " (" + p.getPoints() + " p)\n");
+	}
+
+	public void gameStateGameStart(GameStateEvent gse)
+	{
+		this.controlPanel.putText(" Game starts!\n");
+	}
+
+	public void gameStateRoundStart(GameStateEvent gse)
+	{
+		this.controlPanel.putText("\n" +
+			"Round " + this.engine.getRoundNumber() + ". " +
+			this.engine.piecesLeft() + " piece(s) left.\n"
+		);
+	}
 
 	public void gameStatePlaceMeeple(GameStateEvent gse)
 	{
+		Player p = this.engine.getCurrentPlayer();
+
+		this.controlPanel.putText(
+			"You have " + p.meeplesLeft() + " meeple(s) left.\n" +
+			"Place a meeple with button 1 or skip this phase with button 2.\n"
+		);
+
 		this.updatePiece(null);
 		this.boardPanel.setUserEventListener(new PlaceMeepleListener());
 	}
 
 	public void gameStateRemoveMeeples(GameStateEvent gse)
 	{
+		this.controlPanel.putText(
+			"Remove meeples with button 1 and continue to next turn with button 2.\n"
+		);
+
 		this.updatePiece(null);
 		this.boardPanel.setUserEventListener(new RemoveMeeplesListener());
 	}
 
 	public void gameStateTurnStart(GameStateEvent gse)
 	{
-		System.err.println("Now in turn: " + this.engine.getCurrentPlayer().getName());
 		this.updatePiece(this.engine.getCurrentPiece());
+
+		Player p = this.engine.getCurrentPlayer();
+		this.controlPanel.putText("\n" +
+			"Now in turn: " + p.getName() + " (" + p.getPoints() + " p)\n" +
+			"Place the piece with button 1 and rotate it with button 2.\n"
+		);
+
 		this.boardPanel.setUserEventListener(new PutPieceListener());
 	}
 
@@ -139,10 +177,11 @@ public class UISwing extends JFrame
 		{
 			if (be.button == BoardClickEvent.BUTTON2)
 				UISwing.this.engine.nextTurn();
-			else {
-				UISwing.this.engine.removeMeeple(be.x, be.y);
-				UISwing.this.boardPanel.update();
-			}
+			else
+				if (UISwing.this.engine.removeMeeple(be.x, be.y)) {
+					; // TODO: ask user for points
+					UISwing.this.boardPanel.update();
+				}
 		}
 	}
 }
