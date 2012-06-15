@@ -1,70 +1,71 @@
 package villebasse.ui.swing;
 
-import java.awt.AWTEvent;
-
 /**
  * Välittää laudalla tapahtuvia painalluksia.
  */
 
-public class BoardEvent extends AWTEvent
+public class BoardClickEvent extends UserEvent
 {
-	public int x, y;
+	public static final int BUTTON1 = 1;
+	public static final int BUTTON2 = 2;
+
+	public int x, y, button;
 	public double dx, dy;
 
 	/**
-	 * BoardEvent-luokan konstruktori.
+	 * BoardClick-luokan konstruktori.
 	 *
 	 * @param source  Tapahtuman aiheuttanut objekti
 	 */
-	public BoardEvent(Object source)
+	public BoardClickEvent(Object source)
 	{
 		this(source, 0, 0);
 	}
 
 	/**
-	 * BoardEvent-luokan konstruktori.
+	 * BoardClick-luokan konstruktori.
 	 *
 	 * @param source  Tapahtuman aiheuttanut objekti
 	 * @param type  Viestin tyyppi
 	 */
-	public BoardEvent(Object source, int type)
+	public BoardClickEvent(Object source, int button)
 	{
-		this(source, 0, 0, type);
+		this(source, 0, 0, button);
 	}
 
 	/**
-	 * BoardEvent-luokan konstruktori.
+	 * BoardClick-luokan konstruktori.
 	 *
 	 * @param source  Tapahtuman aiheuttanut objekti
 	 * @param x  Tapahtuman vaakasuuntainen koordinaatti
 	 * @param y  Tapahtuman pystysuuntainen koordinaatti
 	 */
-	public BoardEvent(Object source, int x, int y)
+	public BoardClickEvent(Object source, int x, int y)
 	{
-		this(source, x, y, 0);
+		this(source, x, y, BUTTON1);
 	}
 
 	/**
-	 * BoardEvent-luokan konstruktori.
+	 * BoardClick-luokan konstruktori.
 	 *
 	 * @param source  Tapahtuman aiheuttanut objekti
 	 * @param x  Tapahtuman vaakasuuntainen koordinaatti
 	 * @param y  Tapahtuman pystysuuntainen koordinaatti
 	 * @param type  Viestin tyyppi
 	 */
-	public BoardEvent(Object source, int x, int y, int type)
+	public BoardClickEvent(Object source, int x, int y, int button)
 	{
-		super(source, type);
-		this.x = x;
-		this.y = y;
+		this(source, x, y, button, 0, 0);
 	}
 
-	public BoardEvent(Object source, int x, int y, double dx, double dy, int type)
+	public BoardClickEvent(Object source, int x, int y,
+		double dx, double dy, int button)
 	{
-		super(source, type);
+		super(source);
 		this.x = x;
 		this.y = y;
 		this.dx = dx;
 		this.dy = dy;
+		this.button = button;
 	}
 }

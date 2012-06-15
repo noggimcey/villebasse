@@ -17,10 +17,11 @@ import java.awt.image.BufferedImage;
  * Graafinen käyttöliittymä.
  */
 
-public class UISwing
-	implements UI
+public class UISwing extends JFrame
+	implements UI, GameStateEventListener, ControlPanelEventListener
 {
-	private JFrame mainwin;
+	private BoardPanel boardPanel;
+	private ControlPanel controlPanel;
 	private VilleBasseEngine engine;
 
 	public boolean initialize(String args[])
@@ -33,115 +34,115 @@ public class UISwing
 		}
 
 		this.engine = new VilleBasseEngine();
+		this.engine.addGameStateEventListener(this);
+
+		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setPreferredSize(new Dimension(512, 512));
+
+		this.boardPanel = new BoardPanel(this.engine.getBoard());
+		this.controlPanel = new ControlPanel();
+
+		this.add(this.boardPanel, BorderLayout.CENTER);
+		this.add(this.controlPanel, BorderLayout.SOUTH);
+
+		this.controlPanel.addUserEventListener((ControlPanelEventListener) this);
+
+		this.pack();
 
 		return true;
 	}
 
-
 	public void run()
 	{
-		this.mainwin = new MainWindow(this.engine);
+		this.setVisible(true);
+
+		for (Player p : PlayerDialog.showDialog(this, "Add Players..."))
+			this.engine.addPlayer(p);
+
+		this.engine.startGame();
 	}
 
 
-	private class MainWindow extends JFrame //implements ComponentListener
-		implements BoardEventListener
+	public void gameStateGameEnd(GameStateEvent gse) {}
+	public void gameStateGameStart(GameStateEvent gse) {}
+	public void gameStateRoundStart(GameStateEvent gse) {}
+
+	public void gameStatePlaceMeeple(GameStateEvent gse)
 	{
-		private BoardPanel boardPanel;
-		private ControlPanel controlPanel;
-		private VilleBasseEngine engine;
+		this.updatePiece(null);
+		this.boardPanel.setUserEventListener(new PlaceMeepleListener());
+	}
 
-		public MainWindow(VilleBasseEngine engine)
+	public void gameStateRemoveMeeples(GameStateEvent gse)
+	{
+		this.updatePiece(null);
+		this.boardPanel.setUserEventListener(new RemoveMeeplesListener());
+	}
+
+	public void gameStateTurnStart(GameStateEvent gse)
+	{
+		System.err.println("Now in turn: " + this.engine.getCurrentPlayer().getName());
+		this.updatePiece(this.engine.getCurrentPiece());
+		this.boardPanel.setUserEventListener(new PutPieceListener());
+	}
+
+	public void controlPanelEventOccurred(ControlPanelEvent cpe)
+	{
+		System.err.println(cpe);
+	}
+
+	public void userEventOccurred(UserEvent ue) {}
+
+
+	private void updatePiece(Piece p)
+	{
+		if (p == null)
+			this.boardPanel.setNextPiece(null);
+		else
+			this.boardPanel.setNextPiece(new GUIPiece(p, true));
+		this.boardPanel.update();
+	}
+
+
+	private class PutPieceListener
+		implements BoardClickEventListener
+	{
+		public void userEventOccurred(UserEvent ue) {}
+
+		public void boardClickEventOccurred(BoardClickEvent be)
 		{
-			this.engine = engine;
-
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.setPreferredSize(new Dimension(400, 400));
-			//new BoxLayout(this, BoxLayout.Y_AXIS);
-
-			this.boardPanel = new BoardPanel(this.engine.getBoard());
-			this.boardPanel.addBoardEventListener((BoardEventListener) this);
-			this.add(this.boardPanel);
-
-			this.controlPanel = new ControlPanel();
-			//this.add(this.controlPanel);
-
-			this.engine.addPlayer("foo", Color.pink);
-			this.engine.addPlayer("foo", Color.gray);
-
-			this.engine.startGame();
-			this.boardPanel.setNextPiece(new GUIPiece(this.engine.getCurrentPiece(), true));
-			this.pack();
-			this.setVisible(true);
+			UISwing.this.engine.putPiece(be.x, be.y);
 		}
+	}
 
-		public void boardEventOccurred(BoardEvent be)
+	private class PlaceMeepleListener
+		implements BoardClickEventListener
+	{
+		public void userEventOccurred(UserEvent ue) {}
+
+		public void boardClickEventOccurred(BoardClickEvent be)
 		{
-			if (this.engine.getState() == VilleBasseEngine.EngineState.INGAME_PUT_PIECE) {
-				int x = be.x;
-				int y = be.y;
+			if (be.button == BoardClickEvent.BUTTON1)
+				UISwing.this.engine.placeMeeple(be.x, be.y, be.dx, be.dy);
+			else
+				UISwing.this.engine.placeMeeple();
+		}
+	}
 
-				if (!this.engine.putPiece(x, y))
-					return;
+	private class RemoveMeeplesListener
+		implements BoardClickEventListener
+	{
+		public void userEventOccurred(UserEvent ue) {}
 
-				this.boardPanel.setNextPiece(null);
-			} else if (this.engine.getState() == VilleBasseEngine.EngineState.INGAME_PLACE_MEEPLE) {
-				if (be.getID() == 0) {
-					double dx = be.dx;
-					double dy = be.dy;
-					this.engine.placeMeeple(dx, dy);
-					System.err.println(dx + "  " + dy);
-				}
-				this.nextTurn();
+		public void boardClickEventOccurred(BoardClickEvent be)
+		{
+			if (be.button == BoardClickEvent.BUTTON2)
+				UISwing.this.engine.nextTurn();
+			else {
+				UISwing.this.engine.removeMeeple(be.x, be.y);
+				UISwing.this.boardPanel.update();
 			}
-			this.boardPanel.update();
-		}
-
-		private void nextTurn()
-		{
-			if (!this.engine.nextTurn())
-				return;
-			this.boardPanel.setNextPiece(new GUIPiece(this.engine.getCurrentPiece(), true));
 		}
 	}
-
-	private class ControlPanel extends JPanel
-	{
-		public ControlPanel()
-		{
-		}
-	}
-/*
-	private class HoverPiece extends JPanel implements MouseListener, MouseMotionListener
-	{
-		private int x, y;
-		GUIPiece p;
-
-		public HoverPiece(GUIPiece p)
-		{
-			this.p = p;
-		}
-
-    public void mouseClicked( MouseEvent e) {}
-    public void mouseDragged( MouseEvent e) {}
-    public void mouseEntered( MouseEvent e) {}
-    public void mouseExited(  MouseEvent e) {}
-    public void mousePressed( MouseEvent e) {}
-    public void mouseReleased(MouseEvent e) {}
-
-    public void mouseMoved(   MouseEvent e)
-		{
-      repaint();
-      x = e.getX();
-      y = e.getY();
-      repaint();
-    }
-
-    public void paintComponent (Graphics g)
-     {
-      super.paintComponent(g);
-      g.drawImage(p.image, x, y, p.image.getWidth(this), p.image.getHeight(this), this);
-     }
-	}
-*/
 }

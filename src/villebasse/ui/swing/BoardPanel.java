@@ -11,7 +11,7 @@ import villebasse.gamelogic.*;
 import villebasse.gamelogic.defaultpieces.*;
 
 
-public class BoardPanel extends JPanelWithCustomEvents
+public class BoardPanel extends JPanelUserEventSource
 	implements MouseListener, ComponentListener, MouseMotionListener
 {
 	private BoardGrid boardGrid;
@@ -92,12 +92,16 @@ public class BoardPanel extends JPanelWithCustomEvents
 				this.nextPiece.rotateClockWise();
 				this.repaint();
 			} else {
-				this.dispatchEvent(new BoardEvent(this, x, y, dx, dy, 1));
+				this.dispatchEvent(
+					new BoardClickEvent(this, x, y, dx, dy, BoardClickEvent.BUTTON2)
+				);
 			}
 			return;
 		}
 
-		this.dispatchEvent(new BoardEvent(this, x, y, dx, dy, 0));
+		this.dispatchEvent(
+			new BoardClickEvent(this, x, y, dx, dy, BoardClickEvent.BUTTON1)
+		);
 	}
 
 	private void pad()
