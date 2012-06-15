@@ -18,8 +18,7 @@ import villebasse.gamelogic.*;
  * rajapinnan niiden yhdessä käsittelyyn.
  */
 
-public class GUIPiece extends JPanelWithCustomEvents
-	//implements MouseListener
+public class GUIPiece extends JPanel
 {
 	private static PieceToImageMapper mapper = new NullMapper();
 
@@ -187,17 +186,4 @@ public class GUIPiece extends JPanelWithCustomEvents
 			for (int i = rotation % 4; i > 0; --i)
 				this.rotation.concatenate(new AffineTransform(0, 1, -1, 0, 0, 0));
 	}
-
-	/*
-	public void mouseReleased(MouseEvent e)
-	{
-		this.dispatchEvent(new BoardEvent(this, this.x, this.y));
-		this.rotateClockWise();
-	}
-
-	public void mousePressed(MouseEvent e) {}
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mouseClicked(MouseEvent e) {}
-	*/
 }

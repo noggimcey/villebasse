@@ -136,7 +136,7 @@ public class BoardPanel extends JPanelWithCustomEvents
 	}
 
 
-	private class BoardGrid extends JPanelWithCustomEvents
+	private class BoardGrid extends JPanel
 	{
 		public int height, width;
 		private Board board;
