@@ -7,7 +7,7 @@ public class DrawnMapper extends PieceToImageMapper
 {
 	public DrawnMapper() throws Exception
 	{
-		this.baseDirectory = "../../data/pieces";
+		this.baseDirectory = "data/pieces";
 		this.prefix = "";
 		this.postfix = "_256x256.gif";
 
